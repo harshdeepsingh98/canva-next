@@ -1,4 +1,7 @@
 #!/bin/sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-echo "Skipping tests on pre-commit"
+npm run lint
+
+
+echo "Skipping tests on pre-commit"echo 'Husky is working!'

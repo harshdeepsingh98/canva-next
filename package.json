@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build && next export",
     "start": "next start",
-    "lint": "eslint './**/*.{ts,tsx,json}' --max-warnings=0 --fix",
+    "lint": "eslint **/*.{ts,tsx,json} --max-warnings=0 --fix",
     "lint:fix": "eslint --fix",
     "test": "jest",
     "coverage": "jest --coverage",
