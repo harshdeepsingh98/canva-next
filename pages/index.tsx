@@ -15,7 +15,6 @@ const geistMono = localFont({
 })
 
 export default function Home() {
-  const a = 'dfdfsdsd'
   return (
     <>
       <Head>
