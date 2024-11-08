@@ -11,7 +11,7 @@ import {
   //   ErrorMessageContainer,
   ButtonContainer,
   BottomContainer
-} from 'styles/views/auth/magicLink'
+} from 'styles/views/auth/magicLinkLogin'
 // import { useNavigate } from "react-router-dom";
 // import axios from "axios";
 

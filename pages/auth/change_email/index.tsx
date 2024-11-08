@@ -2,12 +2,9 @@ import dynamic from 'next/dynamic'
 import React from 'react'
 import { DM_Sans } from 'next/font/google'
 
-const MagicLinkRegisterView = dynamic(
-  () => import('@views/auth/magicLinkRegister'),
-  {
-    ssr: false
-  }
-)
+const ChangeEmailView = dynamic(() => import('@views/auth/changeEmail'), {
+  ssr: false
+})
 
 const Layout = dynamic(() => import('components/Layout'), {
   ssr: false
@@ -18,14 +15,14 @@ const dmSans = DM_Sans({
   subsets: ['latin']
 })
 
-const MagicLinkRegisterPage: React.FC = () => {
+const ChangeEmailPage: React.FC = () => {
   return (
     <div className={dmSans.className}>
       <Layout>
-        <MagicLinkRegisterView />
+        <ChangeEmailView />
       </Layout>
     </div>
   )
 }
 
-export default MagicLinkRegisterPage
+export default ChangeEmailPage
