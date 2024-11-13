@@ -9,13 +9,13 @@ export const LoginContainer = styled.div`
   h3 {
     font-weight: 400;
     font-size: 30px;
-    color: #fff;
+    color: ${({ theme }) => theme.colors.textLight};
   }
 
   p {
     font-weight: 400;
     font-size: 14px;
-    color: #fff;
+    color: ${({ theme }) => theme.colors.textLight};
   }
 `
 
