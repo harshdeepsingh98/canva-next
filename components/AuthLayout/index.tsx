@@ -2,9 +2,10 @@
 import React, { ReactNode } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import { theme } from 'styles/theme'
 import { Avatar } from 'antd'
 import type { MenuProps } from 'antd'
-import { Layout, Menu, theme, Dropdown } from 'antd'
+import { Layout, Menu, Dropdown } from 'antd'
 import ProjectLogo from 'images/png/Protean X logo.png'
 import Dashboard from 'images/png/Dashboard.png'
 import Cred from 'images/png/Cred.png'
@@ -37,7 +38,7 @@ const siderStyle: React.CSSProperties = {
   insetInlineStart: 0,
   top: 0,
   bottom: 0,
-  backgroundColor: '#f1f1f1',
+  backgroundColor: theme.colors.secondary,
   scrollbarWidth: 'thin',
   scrollbarGutter: 'stable'
 }
@@ -66,9 +67,6 @@ const menuItems: MenuProps['items'] = [
 
 const AuthLayout: React.FC<LayoutProps> = ({ children, title }) => {
   const router = useRouter()
-  const {
-    token: { colorBgContainer }
-  } = theme.useToken()
 
   const logoutMenu = (
     <Menu
@@ -98,7 +96,7 @@ const AuthLayout: React.FC<LayoutProps> = ({ children, title }) => {
           defaultSelectedKeys={['1']}
           selectedKeys={[location.pathname]}
           items={menuItems}
-          style={{ background: '#f1f1f1' }}
+          style={{ background: theme.colors.secondary }}
           onClick={handleMenuClick}
         />
       </Sider>
@@ -106,11 +104,11 @@ const AuthLayout: React.FC<LayoutProps> = ({ children, title }) => {
         <Header
           style={{
             padding: '20px',
-            background: colorBgContainer,
+            background: theme.colors.background,
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            borderBottom: '1px solid #f1f1f1'
+            borderBottom: `1px solid ${theme.colors.secondary}`
           }}
         >
           <TitleContainer>{title}</TitleContainer>
@@ -144,7 +142,7 @@ const AuthLayout: React.FC<LayoutProps> = ({ children, title }) => {
         <Content
           style={{
             overflow: 'initial',
-            background: '#fff',
+            background: theme.colors.background,
             padding: '20px'
           }}
         >
