@@ -72,3 +72,6 @@
     border-inline-end: none !important;
   }
   
+  html.no-scroll {
+    overflow: hidden !important;
+  }

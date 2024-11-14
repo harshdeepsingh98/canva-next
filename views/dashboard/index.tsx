@@ -1,9 +1,10 @@
+import React, { useEffect } from 'react'
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from 'react'
 import Image from 'next/image'
 import type { MenuProps } from 'antd'
-import { Tabs, Input, Dropdown, Button } from 'antd'
+import { Tabs, Input, Dropdown, Button, Drawer } from 'antd'
 import type { TableColumnsType, TableProps } from 'antd'
 import Table from 'components/Table'
 import Search from 'images/svg/Search'
@@ -23,7 +24,10 @@ import {
   TableContainer,
   ButtonContainer,
   ActionContainer,
-  IconContainer
+  IconContainer,
+  DrawerTitle,
+  DrawerContainer,
+  DrawerButtonContainer
 } from 'styles/views/dashboard'
 
 type TableRowSelection<T extends object = object> =
@@ -75,42 +79,6 @@ const tableMenu: MenuProps['items'] = [
   }
 ]
 
-const dataSource = Array.from<DataType>({ length: 46 }).map<DataType>(
-  (_, i) => ({
-    key: i,
-    Credential: `Offer Letter`,
-    Created: 'Utkarsh Bafna',
-    CreatedOn: `08 May 2024`,
-    Schema: 'Offer Letter Sche...',
-    Records: 32,
-    Issued: 32,
-    Revoked: 32,
-    Action: (
-      <ActionContainer>
-        <ButtonContainer>
-          <Image
-            src={Plus}
-            alt={`Plus`}
-            width={20} // specify width
-            height={20} // specify height
-          />
-          Add Record
-        </ButtonContainer>
-        <IconContainer>
-          <Dropdown menu={{ items: tableMenu }}>
-            <Image
-              src={MenuIcon}
-              alt={`MenuIcon`}
-              width={20} // specify width
-              height={20} // specify height
-            />
-          </Dropdown>
-        </IconContainer>
-      </ActionContainer>
-    )
-  })
-)
-
 const DashboardView: React.FC = () => {
   const detail = [
     { number: '09', title: 'Spaces' },
@@ -118,6 +86,55 @@ const DashboardView: React.FC = () => {
     { number: '09', title: 'Organizations' },
     { number: '09', title: 'Schemas' }
   ]
+
+  const showLoading = () => {
+    setOpen(true)
+    setLoading(true)
+
+    // Simple loading mock. You should add cleanup logic in real world.
+    setTimeout(() => {
+      setLoading(false)
+    }, 2000)
+  }
+
+  const dataSource = Array.from<DataType>({ length: 46 }).map<DataType>(
+    (_, i) => ({
+      key: i,
+      Credential: `Offer Letter`,
+      Created: 'Utkarsh Bafna',
+      CreatedOn: `08 May 2024`,
+      Schema: 'Offer Letter Sche...',
+      Records: 32,
+      Issued: 32,
+      Revoked: 32,
+      Action: (
+        <ActionContainer>
+          <ButtonContainer onClick={showLoading}>
+            <Image
+              src={Plus}
+              alt={`Plus`}
+              width={20} // specify width
+              height={20} // specify height
+            />
+            Add Record
+          </ButtonContainer>
+          <IconContainer>
+            <Dropdown menu={{ items: tableMenu }}>
+              <Image
+                src={MenuIcon}
+                alt={`MenuIcon`}
+                width={20} // specify width
+                height={20} // specify height
+              />
+            </Dropdown>
+          </IconContainer>
+        </ActionContainer>
+      )
+    })
+  )
+
+  const [open, setOpen] = React.useState<boolean>(false)
+  const [loading, setLoading] = React.useState<boolean>(true)
 
   const [currentPage, setCurrentPage] = useState(1)
   const pageSize = 10 // Adjust page size if needed
@@ -150,6 +167,21 @@ const DashboardView: React.FC = () => {
     selectedRowKeys,
     onChange: onSelectChange
   }
+
+  useEffect(() => {
+    const htmlElement = document.documentElement // Select the <html> element
+
+    if (open) {
+      htmlElement.classList.add('no-scroll')
+    } else {
+      htmlElement.classList.remove('no-scroll')
+    }
+
+    // Cleanup function to remove the class when the component unmounts
+    return () => {
+      htmlElement.classList.remove('no-scroll')
+    }
+  }, [open])
 
   return (
     <>
@@ -206,6 +238,22 @@ const DashboardView: React.FC = () => {
           dataSource={paginatedData}
         />
       </TableContainer>
+      <Drawer
+        closable={false}
+        destroyOnClose
+        title={<DrawerTitle>Add Record</DrawerTitle>}
+        placement="right"
+        open={open}
+        loading={loading}
+      >
+        <DrawerContainer>
+          <p>Some contents...</p>
+          <DrawerButtonContainer>
+            <Button onClick={() => setOpen(false)}>{'Cancel'}</Button>
+            <Button>{'Add Record'}</Button>
+          </DrawerButtonContainer>
+        </DrawerContainer>
+      </Drawer>
     </>
   )
 }
