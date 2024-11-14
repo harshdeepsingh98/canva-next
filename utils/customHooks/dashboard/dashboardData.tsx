@@ -14,8 +14,6 @@ import {
   IconContainer
 } from 'styles/views/dashboard'
 import Image from 'next/image'
-import { useDispatch } from 'react-redux'
-import { hideLoading, showLoading } from 'reduxStore/slices/loadingSlice'
 
 export const detail = [
   { number: '09', title: 'Spaces' },
@@ -31,16 +29,8 @@ export const tableMenu: MenuProps['items'] = [
   { key: '4', label: 'View', icon: <View /> }
 ]
 
-export const dataSource = Array.from<DataType>({ length: 46 }).map<DataType>(
-  (_, i) => {
-    const dispatch = useDispatch()
-    const handleAddRecord = () => {
-      dispatch(showLoading())
-      setTimeout(() => {
-        dispatch(hideLoading())
-      }, 2000)
-    }
-
+export const dataSource = (handleAddRecord: () => void) => {
+  return Array.from<DataType>({ length: 46 }).map<DataType>((_, i) => {
     return {
       key: i,
       Credential: `Offer Letter`,
@@ -74,8 +64,8 @@ export const dataSource = Array.from<DataType>({ length: 46 }).map<DataType>(
         </ActionContainer>
       )
     }
-  }
-)
+  })
+}
 
 export const columns = [
   { title: 'Credential Title', dataIndex: 'Credential' },

@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { TableProps } from 'antd'
 import {
   detail,
@@ -8,6 +8,7 @@ import {
   dataSource,
   columns
 } from 'utils/customHooks/dashboard/dashboardData'
+import { hideLoading, showLoading } from 'reduxStore/slices/loadingSlice'
 
 type TableRowSelection<T extends object = object> =
   TableProps<T>['rowSelection']
@@ -24,14 +25,22 @@ export interface DataType {
 }
 
 const useDashboardLogic = () => {
+  const dispatch = useDispatch()
+
+  const handleAddRecord = () => {
+    dispatch(showLoading())
+    setTimeout(() => {
+      dispatch(hideLoading())
+    }, 2000)
+  }
   const [currentPage, setCurrentPage] = useState(1)
   const pageSize = 10 // Adjust page size if needed
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
   const open = useSelector(
     (state: { loading: { open: boolean } }) => state.loading.open
   )
-
-  const totalPages = Math.ceil(dataSource.length / pageSize)
+  const updatedDataSource = dataSource(handleAddRecord)
+  const totalPages = Math.ceil(updatedDataSource.length / pageSize)
 
   const handlePrevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1)
@@ -41,7 +50,7 @@ const useDashboardLogic = () => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1)
   }
 
-  const paginatedData = dataSource.slice(
+  const paginatedData = updatedDataSource.slice(
     (currentPage - 1) * pageSize,
     currentPage * pageSize
   )
