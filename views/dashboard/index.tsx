@@ -33,7 +33,8 @@ const DashboardView: React.FC = () => {
     paginatedData,
     rowSelection,
     selectedRowKeys,
-    columns
+    columns,
+    selectedRowData
   } = useDashboardLogic()
 
   const handleCloseDrawer = () => {
@@ -105,7 +106,11 @@ const DashboardView: React.FC = () => {
         loading={loading}
       >
         <DrawerContainer>
-          <p>Some contents...</p>
+          {selectedRowData && (
+            <p>
+              <strong>Credential Title:</strong> {selectedRowData.Credential}
+            </p>
+          )}
           <DrawerButtonContainer>
             <Button onClick={handleCloseDrawer}>{'Cancel'}</Button>
             <Button>{'Add Record'}</Button>

@@ -25,21 +25,26 @@ export interface DataType {
 }
 
 const useDashboardLogic = () => {
+  const pageSize = 10
   const dispatch = useDispatch()
+  const open = useSelector(
+    (state: { loading: { open: boolean } }) => state.loading.open
+  )
 
-  const handleAddRecord = () => {
+  const [selectedRowData, setSelectedRowData] = useState<DataType | null>(null)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
+
+  const handleAddRecord = (rowData: DataType) => {
+    setSelectedRowData(rowData)
     dispatch(showLoading())
     setTimeout(() => {
       dispatch(hideLoading())
     }, 2000)
   }
-  const [currentPage, setCurrentPage] = useState(1)
-  const pageSize = 10 // Adjust page size if needed
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
-  const open = useSelector(
-    (state: { loading: { open: boolean } }) => state.loading.open
-  )
+
   const updatedDataSource = dataSource(handleAddRecord)
+
   const totalPages = Math.ceil(updatedDataSource.length / pageSize)
 
   const handlePrevPage = () => {
@@ -89,7 +94,8 @@ const useDashboardLogic = () => {
     rowSelection,
     tableMenu,
     columns,
-    selectedRowKeys
+    selectedRowKeys,
+    selectedRowData
   }
 }
 

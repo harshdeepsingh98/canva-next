@@ -29,11 +29,11 @@ export const tableMenu: MenuProps['items'] = [
   { key: '4', label: 'View', icon: <View /> }
 ]
 
-export const dataSource = (handleAddRecord: () => void) => {
+export const dataSource = (handleAddRecord: (rowData: DataType) => void) => {
   return Array.from<DataType>({ length: 46 }).map<DataType>((_, i) => {
-    return {
+    const rowData: DataType = {
       key: i,
-      Credential: `Offer Letter`,
+      Credential: `Offer Letter ${i + 1}`, // Added dynamic values for demo
       Created: 'Utkarsh Bafna',
       CreatedOn: `08 May 2024`,
       Schema: 'Offer Letter Sche...',
@@ -42,7 +42,7 @@ export const dataSource = (handleAddRecord: () => void) => {
       Revoked: 32,
       Action: (
         <ActionContainer>
-          <ButtonContainer onClick={handleAddRecord}>
+          <ButtonContainer onClick={() => handleAddRecord(rowData)}>
             <Image
               src={Plus}
               alt={`Plus`}
@@ -64,6 +64,8 @@ export const dataSource = (handleAddRecord: () => void) => {
         </ActionContainer>
       )
     }
+
+    return rowData
   })
 }
 
