@@ -1,5 +1,7 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Tabs, Input, Button, Drawer } from 'antd'
+import { hideOpen } from 'reduxStore/slices/loadingSlice'
 import useDashboardLogic from 'utils/customHooks/dashboard'
 import Table from 'components/Table'
 import Search from 'images/svg/Search'
@@ -17,10 +19,12 @@ import {
 } from 'styles/views/dashboard'
 
 const DashboardView: React.FC = () => {
+  const dispatch = useDispatch()
+  const loading = useSelector(
+    (state: { loading: { loading: boolean } }) => state.loading.loading
+  )
   const {
     open,
-    setOpen,
-    loading,
     detail,
     currentPage,
     totalPages,
@@ -31,6 +35,11 @@ const DashboardView: React.FC = () => {
     selectedRowKeys,
     columns
   } = useDashboardLogic()
+
+  const handleCloseDrawer = () => {
+    // Dispatch hideOpen action to close the drawer
+    dispatch(hideOpen())
+  }
 
   return (
     <>
@@ -98,7 +107,7 @@ const DashboardView: React.FC = () => {
         <DrawerContainer>
           <p>Some contents...</p>
           <DrawerButtonContainer>
-            <Button onClick={() => setOpen(false)}>{'Cancel'}</Button>
+            <Button onClick={handleCloseDrawer}>{'Cancel'}</Button>
             <Button>{'Add Record'}</Button>
           </DrawerButtonContainer>
         </DrawerContainer>
