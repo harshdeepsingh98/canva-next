@@ -21,7 +21,8 @@ import {
   TitleContainer,
   ButtonContainer,
   ProfileContainer,
-  StyledSpace
+  StyledSpace,
+  StyledMenu
 } from 'styles/components/AuthLayout'
 
 const { Header, Content, Sider } = Layout
@@ -32,7 +33,6 @@ interface LayoutProps {
 }
 
 const siderStyle: React.CSSProperties = {
-  overflow: 'auto',
   height: '100vh',
   position: 'fixed',
   insetInlineStart: 0,
@@ -90,11 +90,11 @@ const AuthLayout: React.FC<LayoutProps> = ({ children, title }) => {
         <div style={{ padding: '22px 4px' }}>
           <Image src={ProjectLogo} alt="Project Logo" />
         </div>
-        <Menu
+        <StyledMenu
           theme="light"
           mode="inline"
-          defaultSelectedKeys={['1']}
-          selectedKeys={[location.pathname]}
+          defaultSelectedKeys={['/dashboard']}
+          selectedKeys={[router.pathname]}
           items={menuItems}
           style={{ background: theme.colors.secondary }}
           onClick={handleMenuClick}

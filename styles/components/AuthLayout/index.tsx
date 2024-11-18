@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { Space } from 'antd'
+import { Menu, Space } from 'antd'
 
 export const StyledSpace = styled(Space)`
   span {
@@ -35,4 +35,17 @@ export const ButtonContainer = styled.button`
   align-items: center;
   justify-content: center;
   height: 40px;
+`
+
+export const StyledMenu = styled(Menu)`
+  .ant-menu-item-selected {
+    background: #f1f6ff !important;
+    border-right: 4px solid #1e3460 !important;
+    color: #1e3460 !important;
+    border-radius: 0;
+  }
+
+  .ant-menu-item-selected a {
+    color: #1e3460 !important;
+  }
 `
