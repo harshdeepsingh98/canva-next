@@ -32,7 +32,8 @@ const SchemasView: React.FC = () => {
     columns,
     isModalOpen,
     handleOpenModal,
-    handleCloseModal
+    handleCloseModal,
+    isFileUploaded
   } = useSchemasLogic()
   return (
     <>
@@ -98,7 +99,7 @@ const SchemasView: React.FC = () => {
         <div style={{ fontWeight: '600', marginBottom: '10px' }}>
           Import JSON{' '}
         </div>
-        <Dragger {...props}>
+        <Dragger {...props} listType="picture">
           <p>
             <Image
               src={Plus}
@@ -114,7 +115,7 @@ const SchemasView: React.FC = () => {
         </Dragger>
         <DragandDropButtonContainer>
           <Button onClick={handleCloseModal}>{'Cancel'}</Button>
-          <Button>{'Add Schema'}</Button>
+          <Button disabled={!isFileUploaded}>{'Add Schema'}</Button>
         </DragandDropButtonContainer>
       </Modal>
     </>

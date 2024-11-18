@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
 import { useState } from 'react'
-import { message, TableProps } from 'antd'
+import { message, TableProps, Upload } from 'antd'
 import type { UploadProps } from 'antd'
 import {
   tableMenu,
@@ -25,6 +25,7 @@ const useSchemasLogic = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
+  const [isFileUploaded, setIsFileUploaded] = useState(false)
 
   const updatedDataSource = dataSource()
 
@@ -58,13 +59,23 @@ const useSchemasLogic = () => {
 
   const handleCloseModal = () => {
     setIsModalOpen(false)
+    setIsFileUploaded(false)
   }
 
   const props: UploadProps = {
     name: 'file',
     multiple: true,
     action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
-    onChange(info: { file: { name?: any; status?: any }; fileList: any }) {
+    beforeUpload: file => {
+      const isJson =
+        file.type === 'application/json' || file.name.endsWith('.json')
+      if (!isJson) {
+        message.error('You can only upload JSON files!')
+      }
+
+      return isJson || Upload.LIST_IGNORE // Ignore the file if it's not JSON
+    },
+    onChange(info) {
       const { status } = info.file
       if (status !== 'uploading') {
         console.log(info.file, info.fileList)
@@ -76,7 +87,7 @@ const useSchemasLogic = () => {
         message.error(`${info.file.name} file upload failed.`)
       }
     },
-    onDrop(e: { dataTransfer: { files: any } }) {
+    onDrop(e) {
       console.log('Dropped files', e.dataTransfer.files)
     }
   }
@@ -94,7 +105,8 @@ const useSchemasLogic = () => {
     isModalOpen,
     handleOpenModal,
     handleCloseModal,
-    props
+    props,
+    isFileUploaded
   }
 }
 

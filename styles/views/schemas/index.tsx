@@ -206,6 +206,12 @@ export const DragandDropButtonContainer = styled.div`
     color: #fff;
     border: none;
     background: #1e3460;
+
+    &:disabled {
+      background: #d3d3d3; /* A lighter shade to indicate disabled state */
+      color: #a1a1a1; /* Grey text for disabled button */
+      cursor: not-allowed; /* Disabled pointer style */
+    }
   }
 
   margin-top: 10px;
