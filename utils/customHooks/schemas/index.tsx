@@ -26,6 +26,7 @@ const useSchemasLogic = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
   const [isFileUploaded, setIsFileUploaded] = useState(false)
+  const [fileList, setFileList] = useState([])
 
   const updatedDataSource = dataSource()
 
@@ -60,11 +61,13 @@ const useSchemasLogic = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false)
     setIsFileUploaded(false)
+    setFileList([])
   }
 
   const props: UploadProps = {
     name: 'file',
     multiple: true,
+    fileList,
     action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
     beforeUpload: file => {
       const isJson =
@@ -86,6 +89,8 @@ const useSchemasLogic = () => {
       } else if (status === 'error') {
         message.error(`${info.file.name} file upload failed.`)
       }
+
+      setFileList(info.fileList as any)
     },
     onDrop(e) {
       console.log('Dropped files', e.dataTransfer.files)
