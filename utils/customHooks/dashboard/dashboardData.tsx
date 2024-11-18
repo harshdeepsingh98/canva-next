@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
+import Image from 'next/image'
 import { Dropdown, MenuProps } from 'antd'
 import { DataType } from 'utils/customHooks/dashboard/index'
 import Edit from 'images/svg/Edit'
@@ -13,7 +14,6 @@ import {
   ButtonContainer,
   IconContainer
 } from 'styles/views/dashboard'
-import Image from 'next/image'
 
 export const detail = [
   { number: '09', title: 'Spaces' },

@@ -75,3 +75,14 @@
   html.no-scroll {
     overflow: hidden !important;
   }
+
+  .ant-upload-text {
+
+    font-size: 12px;
+    line-height: 16px;
+    text-align: center;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: #262626 !important;
+    
+  }

@@ -1,7 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React from 'react'
+import Image from 'next/image'
 import { Dropdown, MenuProps } from 'antd'
-import { DataType } from 'utils/customHooks/dashboard/index'
+import { DataType } from 'utils/customHooks/credentials'
 import Edit from 'images/svg/Edit'
 import Archive from 'images/svg/Archive'
 import Delete from 'images/svg/Delete'
@@ -12,8 +13,7 @@ import {
   ActionContainer,
   ButtonContainer,
   IconContainer
-} from 'styles/views/dashboard'
-import Image from 'next/image'
+} from 'styles/views/credentials'
 
 export const detail = [
   { number: '09', title: 'Issued' },
