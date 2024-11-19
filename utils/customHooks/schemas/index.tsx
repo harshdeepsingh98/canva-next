@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { message, TableProps, Upload } from 'antd'
-import type { UploadProps } from 'antd'
+import type { CheckboxProps, UploadProps } from 'antd'
 import {
   tableMenu,
   dataSource,
@@ -27,6 +27,12 @@ const useSchemasLogic = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
   const [isFileUploaded, setIsFileUploaded] = useState(false)
   const [fileList, setFileList] = useState([])
+  const [isCreatingManually, setIsCreatingManually] = useState(false)
+  const [showManualSchema, setShowManualSchema] = useState(false)
+  const [isPublishModalOpen, setIsPublishModalOpen] = useState(false)
+  const [isIssueSchemaModalOpen, setIsIssueSchemaModalOpen] = useState(false)
+
+  const fileInputRef = useRef<HTMLInputElement | null>(null)
 
   const updatedDataSource = dataSource()
 
@@ -97,6 +103,61 @@ const useSchemasLogic = () => {
     }
   }
 
+  const handleCreateManually = () => {
+    setIsCreatingManually(true)
+  }
+
+  const handleBackToSchemas = () => {
+    setIsCreatingManually(false)
+    setShowManualSchema(false)
+    setFileList([])
+  }
+
+  const handleCreateSchemaManuallyClick = () => {
+    setShowManualSchema(true) // Show manual schema component
+  }
+
+  const handleSelectChange = (value: string) => {
+    console.log(`selected ${value}`)
+  }
+
+  const checkboxOnChange: CheckboxProps['onChange'] = e => {
+    console.log(`checked = ${e.target.checked}`)
+  }
+
+  const handleUploadJsonClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click() // Trigger file input click
+    }
+  }
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      if (file.type !== 'application/json') {
+        message.error('You can only upload JSON files.')
+        e.target.value = ''
+        return
+      }
+
+      // Handle the valid JSON file
+      console.log('File selected:', file)
+    }
+  }
+
+  const handlePublish = () => {
+    setIsPublishModalOpen(true) // Open the modal
+  }
+
+  const handleClosePublishModal = () => {
+    setIsPublishModalOpen(false) // Close the modal
+    setIsIssueSchemaModalOpen(false)
+  }
+
+  const handleConfirmPublishModalModal = () => {
+    setIsIssueSchemaModalOpen(true)
+  }
+
   return {
     currentPage,
     totalPages,
@@ -111,7 +172,22 @@ const useSchemasLogic = () => {
     handleOpenModal,
     handleCloseModal,
     props,
-    isFileUploaded
+    isFileUploaded,
+    isCreatingManually,
+    handleCreateManually,
+    handleBackToSchemas,
+    handleCreateSchemaManuallyClick,
+    showManualSchema,
+    handleSelectChange,
+    checkboxOnChange,
+    fileInputRef,
+    handleUploadJsonClick,
+    handleFileChange,
+    isPublishModalOpen,
+    handlePublish,
+    handleClosePublishModal,
+    isIssueSchemaModalOpen,
+    handleConfirmPublishModalModal
   }
 }
 
