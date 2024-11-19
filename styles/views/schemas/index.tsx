@@ -215,7 +215,7 @@ export const DragandDropButtonContainer = styled.div`
     }
   }
 
-  padding: 10px 20px 10px 0;
+  padding: 10px 0px 10px 0;
 `
 
 export const CreateCredentialsSchema = styled.div`

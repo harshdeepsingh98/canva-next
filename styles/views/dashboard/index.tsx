@@ -90,7 +90,6 @@ export const ButtonContainer = styled.button`
 `
 
 export const DrawerTitle = styled.div`
-  font-family: Metropolis;
   font-size: 20px;
   font-weight: 600;
   line-height: 20px;

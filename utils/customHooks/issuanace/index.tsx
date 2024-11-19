@@ -1,20 +1,25 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import {
   Button,
   Card,
   Checkbox,
   CheckboxProps,
+  Drawer,
+  Flex,
   Input,
   message,
+  Modal,
   Select,
   Space,
+  Switch,
   TableColumnsType,
   Upload,
   UploadProps
 } from 'antd'
+import { Table as AntTable } from 'antd'
 import Table from 'components/Table'
 import View from 'images/svg/View'
 import Duplicate from 'images/svg/CredentialDuplicate'
@@ -24,9 +29,13 @@ import CardImage from 'images/png/CardImage.png'
 import AddField from 'images/png/AddField.png'
 import CloseIcon from 'images/png/CloseIcon.png'
 import SearchImg from 'images/svg/Search'
+import Noschema from 'images/svg/NoSchema'
+import Edit from 'images/png/Edit.png'
 import {
   ActionContainer,
   AddFieldContainer,
+  AddRecordContainer,
+  AddRecordTableContainer,
   BorderBottom,
   ButtonContainer,
   CardButtonContainer,
@@ -40,11 +49,24 @@ import {
   DetailsContainer,
   DragandDropButtonContainer,
   DragandDropContainer,
+  DrawerButtonContainer,
+  DrawerContainer,
+  DrawerTitle,
   HeadingContainer,
   InputContainer,
+  NoSchemaButtonContainer,
+  NoSchemaDescriptionContainer,
+  NoSchemaImageContainer,
+  OrganizationContainer,
+  RecordContainer,
+  RecordLeftContainer,
+  RecordRightContainer,
+  RightContainerTitle,
   SearchContainer,
   SelectDesignContainer,
   SelectSchemaContainer,
+  SwitchContainer,
+  SwitchContent,
   TableContainer,
   TitleContainer
 } from 'styles/views/issuanace'
@@ -88,11 +110,32 @@ interface DataType {
   Action: React.ReactNode
 }
 
+interface AddRecordDataType {
+  key: React.Key
+  Recipient: string
+  Employee: string
+  Job: string
+  DOB: string
+  Email: string
+  Employer: string
+  Action: React.ReactNode
+}
+
 const columns: TableColumnsType<DataType> = [
   { title: 'Schema Name', dataIndex: 'Schema' },
   { title: 'Created By', dataIndex: 'Created' },
   { title: 'Created On', dataIndex: 'CreatedOn' },
   { title: 'Last Updated', dataIndex: 'Updated' },
+  { title: 'Action', dataIndex: 'Action' }
+]
+
+const addRecordColumns: TableColumnsType<AddRecordDataType> = [
+  { title: 'Recipient Email', dataIndex: 'Recipient' },
+  { title: 'Employee Name', dataIndex: 'Employee' },
+  { title: 'Job Role', dataIndex: 'Job' },
+  { title: 'DOB', dataIndex: 'DOB' },
+  { title: 'Email Id', dataIndex: 'Email' },
+  { title: 'Employee ID', dataIndex: 'Employer' },
   { title: 'Action', dataIndex: 'Action' }
 ]
 
@@ -178,6 +221,23 @@ const cardsData = [
   }
 ]
 
+const addRecorddataSource = Array.from<AddRecordDataType>({
+  length: 3
+}).map<AddRecordDataType>((_, i) => ({
+  key: i,
+  Recipient: `aakanksham...`,
+  Employee: 'numan@gma...',
+  Job: `UIUX Desi...`,
+  DOB: '08/05/2024',
+  Email: 'numan@gma...',
+  Employer: 'DC98408...',
+  Action: (
+    <ActionContainer>
+      <Image src={Trash} width={16} height={16} alt="Remove" />
+      <Image src={Edit} width={16} height={16} alt="Edit" />
+    </ActionContainer>
+  )
+}))
 const useIssuanaceLogic = () => {
   const { TextArea, Search } = Input
   const { Dragger } = Upload
@@ -187,9 +247,25 @@ const useIssuanaceLogic = () => {
   const [current, setCurrent] = useState(0)
   const [showManualSchema, setShowManualSchema] = useState(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false)
+  const [isAddRecordModalOpen, setIsAddRecordModalOpen] = useState(false)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const pageSize = 10 // Adjust page size if needed
   const totalPages = Math.ceil(dataSource.length / pageSize)
+
+  useEffect(() => {
+    const htmlElement = document.documentElement
+
+    if (isDrawerOpen) {
+      htmlElement.classList.add('no-scroll')
+    } else {
+      htmlElement.classList.remove('no-scroll')
+    }
+
+    return () => {
+      htmlElement.classList.remove('no-scroll')
+    }
+  }, [isDrawerOpen])
 
   const handleUploadJsonClick = () => {
     if (fileInputRef.current) {
@@ -271,6 +347,26 @@ const useIssuanaceLogic = () => {
 
   const onChange: CheckboxProps['onChange'] = e => {
     console.log(`checked = ${e.target.checked}`)
+  }
+
+  const handleManuallyAddRecord = () => {
+    setIsDrawerOpen(true)
+  }
+
+  const handleCloseDrawer = () => {
+    setIsDrawerOpen(false)
+  }
+
+  const handleImportAddRecord = () => {
+    setIsAddRecordModalOpen(true)
+  }
+
+  const handleCloseAddRecordModal = () => {
+    setIsAddRecordModalOpen(false)
+  }
+
+  const AddRecordButtonClick = () => {
+    setIsAddRecordModalOpen(false)
   }
 
   const steps = [
@@ -576,7 +672,180 @@ const useIssuanaceLogic = () => {
     },
     {
       title: 'Add Records',
-      content: 'Last-content'
+      content: (
+        <AddRecordContainer>
+          <HeadingContainer>Add Records</HeadingContainer>
+
+          <RecordContainer>
+            {addRecorddataSource.length ? (
+              <AddRecordTableContainer>
+                <Flex gap="middle" vertical style={{ width: '100%' }}>
+                  <AntTable
+                    columns={addRecordColumns}
+                    dataSource={addRecorddataSource}
+                    pagination={false}
+                    scroll={{ x: true }}
+                  />
+                </Flex>
+                <NoSchemaButtonContainer style={{ justifyContent: 'end' }}>
+                  <Button onClick={handleManuallyAddRecord}>
+                    {'Add manually'}
+                  </Button>
+                  <Button onClick={handleImportAddRecord}>
+                    {'Import Spreadsheet'}
+                  </Button>
+                </NoSchemaButtonContainer>
+              </AddRecordTableContainer>
+            ) : (
+              <RecordLeftContainer>
+                {' '}
+                <NoSchemaImageContainer>
+                  <Noschema />
+                </NoSchemaImageContainer>
+                <NoSchemaDescriptionContainer>
+                  No Records Found !
+                  <span>
+                    Please add records to generate credentials. You can Import
+                    spreadsheet or add records manually
+                  </span>
+                </NoSchemaDescriptionContainer>
+                <NoSchemaButtonContainer>
+                  <Button onClick={handleManuallyAddRecord}>
+                    {'Add manually'}
+                  </Button>
+                  <Button onClick={handleImportAddRecord}>
+                    {'Import Spreadsheet'}
+                  </Button>
+                </NoSchemaButtonContainer>
+              </RecordLeftContainer>
+            )}
+
+            <RecordRightContainer>
+              <RightContainerTitle>Credential Settings</RightContainerTitle>
+              <OrganizationContainer>
+                Organization Profile{' '}
+                <span>
+                  Select Organization Profile you want to use to issue the
+                  credentials.
+                </span>
+              </OrganizationContainer>
+              <Select
+                defaultValue="TDT (Organization Name)"
+                style={{ width: 120 }}
+                onChange={handleSelectChange}
+                options={[
+                  {
+                    value: 'TDT (Organization Name)',
+                    label: 'TDT (Organization Name)'
+                  }
+                ]}
+              />
+              <OrganizationContainer>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+
+                    gap: '10px',
+                    width: '100%'
+                  }}
+                >
+                  Persistent credential
+                  <Switch size="small" defaultChecked />
+                </div>
+                <span>
+                  The credential can be accessed and verified via a URL or QR
+                  Code.
+                </span>
+              </OrganizationContainer>
+              <Input size="large" placeholder="Credential Password" />
+              <OrganizationContainer>
+                <span>
+                  The credential is accessed with password that should be shared
+                  with the holder. Min 4 characters.
+                </span>
+              </OrganizationContainer>
+              <SwitchContainer>
+                <SwitchContent>
+                  Generate PDF <Switch size="small" defaultChecked />
+                </SwitchContent>
+                <SwitchContent>
+                  Blockchain Anchoring <Switch size="small" defaultChecked />
+                </SwitchContent>
+                <SwitchContent>
+                  Credential Revocation <Switch size="small" defaultChecked />
+                </SwitchContent>
+              </SwitchContainer>
+            </RecordRightContainer>
+          </RecordContainer>
+          <Drawer
+            closable={false}
+            destroyOnClose
+            title={<DrawerTitle>Add Record</DrawerTitle>}
+            placement="right"
+            open={isDrawerOpen}
+          >
+            <DrawerContainer>
+              Data
+              <DrawerButtonContainer>
+                <Button onClick={handleCloseDrawer}>{'Cancel'}</Button>
+                <Button onClick={handleCloseDrawer}>{'Add Record'}</Button>
+              </DrawerButtonContainer>
+            </DrawerContainer>
+          </Drawer>
+          <Modal
+            open={isAddRecordModalOpen}
+            onCancel={handleCloseAddRecordModal}
+            footer={null}
+            centered
+            closable={false}
+          >
+            <div style={{ fontWeight: '600', marginBottom: '10px' }}>
+              Import JSON{' '}
+            </div>
+            <Dragger
+              {...props}
+              listType="picture"
+              showUploadList={{
+                removeIcon: (
+                  <span
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <Image
+                      src={CloseIcon}
+                      alt="Remove"
+                      width={16}
+                      height={16}
+                    />
+                  </span>
+                )
+              }}
+            >
+              <p>
+                <Image
+                  src={Plus}
+                  alt={`Plus`}
+                  width={20} // specify width
+                  height={20} // specify height
+                />
+              </p>
+              <p className="ant-upload-text">
+                Drag & Drop files here or <br />
+                Click Here to import JSON file
+              </p>
+            </Dragger>
+            <DragandDropButtonContainer>
+              <Button onClick={handleCloseAddRecordModal}>{'Cancel'}</Button>
+              <Button onClick={AddRecordButtonClick}>{'Add Records'}</Button>
+            </DragandDropButtonContainer>
+          </Modal>
+        </AddRecordContainer>
+      )
     },
     {
       title: 'Send Credentials',

@@ -100,6 +100,18 @@ const IssuanaceView: React.FC = () => {
               </Button>
             </>
           )}
+          {current === 3 && (
+            <>
+              <Button>Save Records</Button>
+              <Button
+                type="primary"
+                onClick={next}
+                style={{ marginLeft: 8, background: '#1e3460' }}
+              >
+                Continue
+              </Button>
+            </>
+          )}
         </BottomButtonContainer>
         <Modal
           title=""

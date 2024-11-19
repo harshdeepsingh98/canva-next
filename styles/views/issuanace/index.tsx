@@ -236,7 +236,7 @@ export const DragandDropButtonContainer = styled.div`
     }
   }
 
-  padding: 10px 20px 10px 0;
+  padding: 10px 0px 10px 0;
 `
 export const SelectSchemaContainer = styled.div`
   width: 100%;
@@ -274,7 +274,7 @@ export const TableContainer = styled.div`
 export const ActionContainer = styled.div`
   display: flex;
   gap: 5px;
-  margin-top: 20px;
+  // margin-top: 20px;
 
   .primary {
     color: #fff;
@@ -351,4 +351,216 @@ export const CardButtonContainer = styled.div`
     border: 1px solid #1e3460;
     flex: 1;
   }
+`
+export const AddRecordContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`
+
+export const RecordContainer = styled.div`
+  width: 100%;
+  display: flex;
+  margin-top: 10px;
+  gap: 20px;
+  border: 1px solid #e9e9e9;
+  padding: 10px;
+  border-radius: 16px;
+`
+
+export const RecordLeftContainer = styled.div`
+  border: 1px solid #e9e9e9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  flex-direction: column;
+  border-radius: 16px;
+  flex: 1;
+`
+
+export const NoSchemaImageContainer = styled.div`
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+`
+
+export const NoSchemaDescriptionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  // margin-top: 10px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 16px;
+  text-align: center;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+
+  span {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    text-align: center;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+  }
+`
+
+export const NoSchemaButtonContainer = styled.div`
+  display: flex;
+  width: 100%;
+  gap: 10px;
+  justify-content: center;
+
+  button:first-child {
+    color: #1e3460;
+    background: #f1f6ff;
+    border: none;
+  }
+
+  button:last-child {
+    color: #fff;
+    border: none;
+    background: #1e3460;
+  }
+`
+export const DrawerTitle = styled.div`
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 20px;
+  text-align: left;
+`
+export const DrawerContainer = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`
+export const DrawerButtonContainer = styled.div`
+  display: flex;
+  width: 100%;
+  gap: 10px;
+  justify-content: end;
+
+  button:first-child {
+    color: #1e3460;
+    background: #f1f6ff;
+    border: none;
+  }
+
+  button:last-child {
+    color: #fff;
+    border: none;
+    background: #1e3460;
+  }
+`
+
+export const AddRecordTableContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  flex: 2; /* Ensure the table container shares available space */
+  overflow: auto;
+  .ant-table-container {
+    border: 1px solid #f1f1f1 !important;
+  }
+  .ant-table-tbody {
+    border: 1px solid #f1f1f1;
+  }
+  .ant-table-thead > tr > th {
+    background-color: #fff !important;
+
+    // color: #f1f1f1 !important;
+    // border-right: none !important;
+  }
+
+  .ant-table-tbody > tr > td {
+    // border-right: none !important;
+  }
+
+  .ant-table-thead > tr > th:not(:last-child)::before,
+  .ant-table-tbody > tr > td:not(:last-child)::before {
+    display: none !important;
+  }
+`
+
+export const RecordRightContainer = styled.div`
+  display: flex;
+
+  justify-content: center;
+  padding: 10px;
+  flex-direction: column;
+  border-radius: 16px;
+  flex: 1;
+  gap: 10px;
+  border-right: 1px solid #d8dee4;
+  height: 100%;
+
+  .ant-select {
+    width: 100% !important;
+  }
+`
+
+export const RightContainerTitle = styled.div`
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 16px;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  margin-bottom: 10px;
+`
+export const OrganizationContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 14px;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  span {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+  }
+
+  .ant-switch-handle::before {
+    background-color: #1e3460 !important;
+  }
+
+  .ant-switch-checked {
+    background-color: #e8f0ff !important;
+  }
+`
+
+export const SwitchContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  gap: 10px;
+  align-items: baseline;
+  .ant-switch-handle::before {
+    background-color: #1e3460 !important;
+  }
+
+  .ant-switch-checked {
+    background-color: #e8f0ff !important;
+  }
+`
+
+export const SwitchContent = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
 `
