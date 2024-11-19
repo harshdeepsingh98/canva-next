@@ -93,3 +93,31 @@ html.no-scroll {
 .ant-layout {
   height: 100% !important;
 }
+
+.ant-card {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  flex-direction: column;
+  flex: 1;
+  max-width: 280px;
+  min-width: 250px;
+  border-radius: 16px;
+  min-height: 300px;
+}
+
+.ant-card-cover {
+  height: 57%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    height: auto;
+  }
+}
+
+.ant-card-body {
+  height: 43%;
+  padding: 0;
+}

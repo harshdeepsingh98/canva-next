@@ -46,6 +46,7 @@ const siderStyle: React.CSSProperties = {
 const menuItems: MenuProps['items'] = [
   { key: '/dashboard', label: 'Dashboard', iconSrc: Dashboard },
   { key: '/credentials', label: 'Credentials', iconSrc: Cred },
+  { key: '/issuanace', label: 'Issuanace', iconSrc: Cred },
   { key: '/schemas', label: 'Schemas', iconSrc: Schemas },
   { key: '/designers', label: 'Designers', iconSrc: Designer },
   { key: '/verification', label: 'Verification', iconSrc: Verification },
