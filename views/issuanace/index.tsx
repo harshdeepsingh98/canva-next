@@ -31,7 +31,8 @@ const IssuanaceView: React.FC = () => {
     handleCreateSchemaClick,
     isModalOpen,
     handleOk,
-    handleCancelModal
+    handleCancelModal,
+    handleSendCredentialModalOpen
   } = useIssuanaceLogic()
   return (
     <>
@@ -109,6 +110,18 @@ const IssuanaceView: React.FC = () => {
                 style={{ marginLeft: 8, background: '#1e3460' }}
               >
                 Continue
+              </Button>
+            </>
+          )}
+          {current === 4 && (
+            <>
+              <Button onClick={prev}>Back</Button>
+              <Button
+                type="primary"
+                onClick={handleSendCredentialModalOpen}
+                style={{ marginLeft: 8, background: '#1e3460' }}
+              >
+                Issue Credentials
               </Button>
             </>
           )}

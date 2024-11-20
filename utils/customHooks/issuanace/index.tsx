@@ -12,6 +12,7 @@ import {
   Input,
   message,
   Modal,
+  Progress,
   Select,
   Space,
   Switch,
@@ -22,8 +23,10 @@ import {
 import { Table as AntTable } from 'antd'
 import Table from 'components/Table'
 import View from 'images/svg/View'
+import Certificate from 'images/svg/Certificate'
 import Duplicate from 'images/svg/CredentialDuplicate'
 import Trash from 'images/png/Trash.png'
+import File from 'images/png/File.png'
 import Plus from 'images/png/AddCircle.png'
 import CardImage from 'images/png/CardImage.png'
 import AddField from 'images/png/AddField.png'
@@ -31,6 +34,8 @@ import CloseIcon from 'images/png/CloseIcon.png'
 import SearchImg from 'images/svg/Search'
 import Noschema from 'images/svg/NoSchema'
 import Edit from 'images/png/Edit.png'
+import ProjectLogo from 'images/png/Protean X logo.png'
+import FeatureIcon from 'images/png/FeaturedIcon.png'
 import {
   ActionContainer,
   AddFieldContainer,
@@ -45,6 +50,7 @@ import {
   ContentContainer,
   CreateSchemaContainer,
   CredentialContainerAttribute,
+  CretificateContainer,
   DescriptionContainer,
   DetailsContainer,
   DragandDropButtonContainer,
@@ -54,10 +60,16 @@ import {
   DrawerTitle,
   HeadingContainer,
   InputContainer,
+  MessageTableContainer,
+  ModalDescription,
+  ModalTitle,
   NoSchemaButtonContainer,
   NoSchemaDescriptionContainer,
   NoSchemaImageContainer,
   OrganizationContainer,
+  ProgressContainer,
+  ProgressFileNameContainer,
+  ProgressHeader,
   RecordContainer,
   RecordLeftContainer,
   RecordRightContainer,
@@ -65,101 +77,16 @@ import {
   SearchContainer,
   SelectDesignContainer,
   SelectSchemaContainer,
+  SendCredentailsLeftContainer,
+  SendCredentialsContainer,
+  SendCredentialsOrganizationContainer,
+  SendCredentialsRightContainer,
   SwitchContainer,
   SwitchContent,
   TableContainer,
   TitleContainer
 } from 'styles/views/issuanace'
-
-const props: UploadProps = {
-  name: 'file',
-  multiple: true,
-  action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
-  beforeUpload: file => {
-    const isJson =
-      file.type === 'application/json' || file.name.endsWith('.json')
-    if (!isJson) {
-      message.error('You can only upload JSON files!')
-    }
-
-    return isJson || Upload.LIST_IGNORE // Ignore the file if it's not JSON
-  },
-  onChange(info) {
-    const { status } = info.file
-    if (status !== 'uploading') {
-      console.log(info.file, info.fileList)
-    }
-
-    if (status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully.`)
-    } else if (status === 'error') {
-      message.error(`${info.file.name} file upload failed.`)
-    }
-  },
-  onDrop(e) {
-    console.log('Dropped files', e.dataTransfer.files)
-  }
-}
-
-interface DataType {
-  key: React.Key
-  Schema: string
-  Created: string
-  CreatedOn: string
-  Updated: string
-  Action: React.ReactNode
-}
-
-interface AddRecordDataType {
-  key: React.Key
-  Recipient: string
-  Employee: string
-  Job: string
-  DOB: string
-  Email: string
-  Employer: string
-  Action: React.ReactNode
-}
-
-const columns: TableColumnsType<DataType> = [
-  { title: 'Schema Name', dataIndex: 'Schema' },
-  { title: 'Created By', dataIndex: 'Created' },
-  { title: 'Created On', dataIndex: 'CreatedOn' },
-  { title: 'Last Updated', dataIndex: 'Updated' },
-  { title: 'Action', dataIndex: 'Action' }
-]
-
-const addRecordColumns: TableColumnsType<AddRecordDataType> = [
-  { title: 'Recipient Email', dataIndex: 'Recipient' },
-  { title: 'Employee Name', dataIndex: 'Employee' },
-  { title: 'Job Role', dataIndex: 'Job' },
-  { title: 'DOB', dataIndex: 'DOB' },
-  { title: 'Email Id', dataIndex: 'Email' },
-  { title: 'Employee ID', dataIndex: 'Employer' },
-  { title: 'Action', dataIndex: 'Action' }
-]
-
-const dataSource = Array.from<DataType>({ length: 46 }).map<DataType>(
-  (_, i) => ({
-    key: i,
-    Schema: `Offer Letter`,
-    Created: 'Utkarsh Bafna',
-    CreatedOn: `08 May 2024`,
-    Updated: '15 June 2024',
-    Action: (
-      <ActionContainer>
-        <ButtonContainer>
-          <View />
-          View
-        </ButtonContainer>
-        <ButtonContainer className="primary">
-          <Duplicate />
-          Duplicate
-        </ButtonContainer>
-      </ActionContainer>
-    )
-  })
-)
+import React from 'react'
 
 const cardsData = [
   {
@@ -221,6 +148,103 @@ const cardsData = [
   }
 ]
 
+const props: UploadProps = {
+  name: 'file',
+  multiple: true,
+  action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
+  beforeUpload: file => {
+    const isJson =
+      file.type === 'application/json' || file.name.endsWith('.json')
+    if (!isJson) {
+      message.error('You can only upload JSON files!')
+    }
+
+    return isJson || Upload.LIST_IGNORE // Ignore the file if it's not JSON
+  },
+  onChange(info) {
+    const { status } = info.file
+    if (status !== 'uploading') {
+      console.log(info.file, info.fileList)
+    }
+
+    if (status === 'done') {
+      message.success(`${info.file.name} file uploaded successfully.`)
+    } else if (status === 'error') {
+      message.error(`${info.file.name} file upload failed.`)
+    }
+  },
+  onDrop(e) {
+    console.log('Dropped files', e.dataTransfer.files)
+  }
+}
+
+interface DataType {
+  key: React.Key
+  Schema: string
+  Created: string
+  CreatedOn: string
+  Updated: string
+  Action: React.ReactNode
+}
+
+interface AddRecordDataType {
+  key: React.Key
+  Recipient: string
+  Employee: string
+  Job: string
+  DOB: string
+  Email: string
+  Employer: string
+  Action: React.ReactNode
+}
+
+interface MessageDataType {
+  key: React.Key
+  Name: string
+  Email: string
+  DID: string
+}
+
+const columns: TableColumnsType<DataType> = [
+  { title: 'Schema Name', dataIndex: 'Schema' },
+  { title: 'Created By', dataIndex: 'Created' },
+  { title: 'Created On', dataIndex: 'CreatedOn' },
+  { title: 'Last Updated', dataIndex: 'Updated' },
+  { title: 'Action', dataIndex: 'Action' }
+]
+
+const addRecordColumns: TableColumnsType<AddRecordDataType> = [
+  { title: 'Recipient Email', dataIndex: 'Recipient' },
+  { title: 'Employee Name', dataIndex: 'Employee' },
+  { title: 'Job Role', dataIndex: 'Job' },
+  { title: 'DOB', dataIndex: 'DOB' },
+  { title: 'Email Id', dataIndex: 'Email' },
+  { title: 'Employee ID', dataIndex: 'Employer' },
+  { title: 'Action', dataIndex: 'Action' }
+]
+
+const dataSource = Array.from<DataType>({ length: 46 }).map<DataType>(
+  (_, i) => ({
+    key: i,
+    Schema: `Offer Letter`,
+    Created: 'Utkarsh Bafna',
+    CreatedOn: `08 May 2024`,
+    Updated: '15 June 2024',
+    Action: (
+      <ActionContainer>
+        <ButtonContainer>
+          <View />
+          View
+        </ButtonContainer>
+        <ButtonContainer className="primary">
+          <Duplicate />
+          Duplicate
+        </ButtonContainer>
+      </ActionContainer>
+    )
+  })
+)
+
 const addRecorddataSource = Array.from<AddRecordDataType>({
   length: 3
 }).map<AddRecordDataType>((_, i) => ({
@@ -238,6 +262,22 @@ const addRecorddataSource = Array.from<AddRecordDataType>({
     </ActionContainer>
   )
 }))
+
+const messageColumns: TableColumnsType<MessageDataType> = [
+  { title: 'Recipients Name', dataIndex: 'Name' },
+  { title: 'Recipients Email ID', dataIndex: 'Email' },
+  { title: 'Recipients DID', dataIndex: 'DID' }
+]
+
+const messagedataSource = Array.from<MessageDataType>({
+  length: 50
+}).map<MessageDataType>((_, i) => ({
+  key: i,
+  Name: `Rushikesh Baikare`,
+  Email: 'rushib12@gmail...',
+  DID: `did:xstudio:982:Z...`
+}))
+
 const useIssuanaceLogic = () => {
   const { TextArea, Search } = Input
   const { Dragger } = Upload
@@ -249,9 +289,25 @@ const useIssuanaceLogic = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isDrawerOpen, setIsDrawerOpen] = useState(false)
   const [isAddRecordModalOpen, setIsAddRecordModalOpen] = useState(false)
+  const [isSendCredentialsModalOpen, setIsSendCredentialsModalOpen] =
+    useState(false)
+  const [progress, setProgress] = useState(50)
+  const [isProgressbarVisible, setIsProgressbarVisible] = useState(false)
+  const [isIssued, setIsIssued] = useState(false)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
   const pageSize = 10 // Adjust page size if needed
   const totalPages = Math.ceil(dataSource.length / pageSize)
+
+  const [selectedRowKeys, setSelectedRowKeys] = React.useState<React.Key[]>([])
+
+  const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+    setSelectedRowKeys(newSelectedRowKeys)
+  }
+
+  const rowSelection = {
+    selectedRowKeys,
+    onChange: onSelectChange
+  }
 
   useEffect(() => {
     const htmlElement = document.documentElement
@@ -266,6 +322,20 @@ const useIssuanaceLogic = () => {
       htmlElement.classList.remove('no-scroll')
     }
   }, [isDrawerOpen])
+
+  useEffect(() => {
+    if (isProgressbarVisible && progress < 100) {
+      const timer = setTimeout(() => setProgress(prev => prev + 10), 1000)
+      return () => clearTimeout(timer)
+    }
+  }, [progress, isProgressbarVisible])
+
+  useEffect(() => {
+    if (progress === 100) {
+      setIsProgressbarVisible(false)
+      setIsIssued(true)
+    }
+  }, [progress])
 
   const handleUploadJsonClick = () => {
     if (fileInputRef.current) {
@@ -367,6 +437,20 @@ const useIssuanaceLogic = () => {
 
   const AddRecordButtonClick = () => {
     setIsAddRecordModalOpen(false)
+  }
+
+  const handleSendCredentialModalOpen = () => {
+    setIsSendCredentialsModalOpen(true)
+  }
+  const handleSendCredentialModalClose = () => {
+    setIsSendCredentialsModalOpen(false)
+    setIsProgressbarVisible(false)
+    setIsIssued(false)
+    setProgress(50)
+  }
+
+  const handleSendCredentialModalConfirm = () => {
+    setIsProgressbarVisible(true)
   }
 
   const steps = [
@@ -675,7 +759,6 @@ const useIssuanaceLogic = () => {
       content: (
         <AddRecordContainer>
           <HeadingContainer>Add Records</HeadingContainer>
-
           <RecordContainer>
             {addRecorddataSource.length ? (
               <AddRecordTableContainer>
@@ -849,7 +932,190 @@ const useIssuanaceLogic = () => {
     },
     {
       title: 'Send Credentials',
-      content: 'Last-content'
+      content: (
+        <SendCredentialsContainer>
+          <SendCredentailsLeftContainer>
+            <HeadingContainer>Add Records</HeadingContainer>
+            <SendCredentialsOrganizationContainer>
+              E-mail preview of recepient
+              <span>
+                Check email preview so you can change things accordingly
+              </span>
+            </SendCredentialsOrganizationContainer>
+            <CretificateContainer>
+              <Image src={ProjectLogo} alt="Project Logo" />
+              <Certificate />
+            </CretificateContainer>
+          </SendCredentailsLeftContainer>
+          <SendCredentialsRightContainer>
+            <HeadingContainer>Add message</HeadingContainer>
+            <SendCredentialsOrganizationContainer style={{ marginTop: 0 }}>
+              <span style={{ marginTop: 0 }}>
+                Type a message for the credential holder or recepient
+              </span>
+            </SendCredentialsOrganizationContainer>
+            <Input size="large" placeholder="Type message" />
+            <HeadingContainer style={{ marginTop: 10 }}>
+              Message For
+            </HeadingContainer>
+            <SendCredentialsOrganizationContainer style={{ marginTop: 0 }}>
+              <span style={{ marginTop: 0 }}>
+                Please select recepients you wants to send this message to
+              </span>
+            </SendCredentialsOrganizationContainer>
+            <MessageTableContainer>
+              <Flex gap="middle" vertical style={{ width: '100%' }}>
+                <AntTable
+                  columns={messageColumns}
+                  dataSource={messagedataSource}
+                  rowSelection={rowSelection}
+                  pagination={false}
+                  scroll={{ y: 315 }}
+                />
+              </Flex>
+            </MessageTableContainer>
+          </SendCredentialsRightContainer>
+          <Modal
+            title=""
+            open={isSendCredentialsModalOpen}
+            closable={isProgressbarVisible || isIssued ? true : false}
+            bodyStyle={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexDirection: 'column'
+            }}
+            style={{
+              top: '50%',
+              transform: 'translateY(-50%)'
+            }}
+            footer={null}
+            closeIcon={
+              <span
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '24px',
+                  height: '24px',
+                  borderRadius: '50%',
+                  cursor: 'pointer'
+                }}
+              >
+                <Image
+                  src={CloseIcon}
+                  width={16}
+                  height={16}
+                  alt="Close"
+                  onClick={handleSendCredentialModalClose}
+                />
+              </span>
+            }
+          >
+            {isIssued && <Image src={FeatureIcon} alt="Remove" />}
+            <ModalTitle>
+              {isProgressbarVisible
+                ? 'Issuing credentials'
+                : isIssued
+                  ? 'Issued Successfully'
+                  : 'Issue all credentials?'}
+            </ModalTitle>
+            <ModalDescription>
+              {isProgressbarVisible ? (
+                <ProgressContainer>
+                  <ProgressHeader>
+                    <Image src={File} width={16} height={16} alt="Remove" />
+                    <ProgressFileNameContainer>
+                      Experience Letter <span>26/34 . 12 Seconds left</span>
+                    </ProgressFileNameContainer>
+                  </ProgressHeader>
+                  <Flex gap="small" vertical style={{ width: '100%' }}>
+                    <Progress
+                      percent={progress}
+                      status="active"
+                      style={{ width: '100%' }}
+                    />
+                  </Flex>
+                </ProgressContainer>
+              ) : !isIssued ? (
+                'Please confirm to Issue all 25 credentials to holders'
+              ) : (
+                'All 25 Credentials issued successfully. You can go to the credentials page to check status.'
+              )}
+            </ModalDescription>
+            {!isProgressbarVisible && !isIssued && (
+              <div
+                className="custom-modal-footer"
+                style={{
+                  marginTop: '20px',
+                  textAlign: 'center',
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'center'
+                }}
+              >
+                <Button
+                  style={{
+                    width: '100%',
+                    background: '#F6F9FF',
+                    color: '#1E3460',
+                    border: 'none'
+                  }}
+                  onClick={handleSendCredentialModalClose}
+                >
+                  Close
+                </Button>
+                <Button
+                  onClick={handleSendCredentialModalConfirm}
+                  style={{
+                    marginLeft: 8,
+                    width: '100%',
+                    backgroundColor: '#1E3460',
+                    color: '#fff'
+                  }}
+                >
+                  Confirm
+                </Button>
+              </div>
+            )}
+            {isIssued && (
+              <div
+                className="custom-modal-footer"
+                style={{
+                  marginTop: '20px',
+                  textAlign: 'center',
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'center'
+                }}
+              >
+                <Button
+                  style={{
+                    width: '100%',
+                    background: '#F6F9FF',
+                    color: '#1E3460',
+                    border: 'none'
+                  }}
+                  onClick={handleSendCredentialModalClose}
+                >
+                  Close
+                </Button>
+                <Button
+                  onClick={handleSendCredentialModalClose}
+                  style={{
+                    marginLeft: 8,
+                    width: '100%',
+                    backgroundColor: '#1E3460',
+                    color: '#fff'
+                  }}
+                >
+                  Check
+                </Button>
+              </div>
+            )}
+          </Modal>
+        </SendCredentialsContainer>
+      )
     }
   ]
 
@@ -869,7 +1135,8 @@ const useIssuanaceLogic = () => {
     prev,
     handleCreateSchemaClick,
     setIsCreatingSchema,
-    setShowManualSchema
+    setShowManualSchema,
+    handleSendCredentialModalOpen
   }
 }
 
