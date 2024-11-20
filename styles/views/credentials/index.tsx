@@ -151,8 +151,8 @@ export const PaginationContainer = styled.div`
 export const StyledTag = styled(Tag)<{ color: string }>`
   font-size: 14px;
   font-weight: 600;
-  padding: 5px 10px;
-  border-radius: 12px;
+  padding: 5px 10px 8px 10px;
+  border-radius: 20px;
 
   // Customize based on the color prop
   background-color: ${({ color }) =>
