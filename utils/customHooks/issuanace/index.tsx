@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
+import React from 'react'
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import {
@@ -16,36 +17,36 @@ import {
   Select,
   Space,
   Switch,
-  TableColumnsType,
-  Upload,
-  UploadProps
+  Upload
 } from 'antd'
 import { Table as AntTable } from 'antd'
+import {
+  cardsData,
+  props,
+  columns,
+  dataSource,
+  addRecordColumns,
+  addRecorddataSource,
+  messageColumns,
+  messagedataSource
+} from 'utils/customHooks/issuanace/issuanaceData'
 import Table from 'components/Table'
-import View from 'images/svg/View'
 import Certificate from 'images/svg/Certificate'
-import Duplicate from 'images/svg/CredentialDuplicate'
 import Trash from 'images/png/Trash.png'
 import File from 'images/png/File.png'
 import Plus from 'images/png/AddCircle.png'
-import CardImage from 'images/png/CardImage.png'
 import AddField from 'images/png/AddField.png'
 import CloseIcon from 'images/png/CloseIcon.png'
 import SearchImg from 'images/svg/Search'
 import Noschema from 'images/svg/NoSchema'
-import Edit from 'images/png/Edit.png'
 import ProjectLogo from 'images/png/Protean X logo.png'
 import FeatureIcon from 'images/png/FeaturedIcon.png'
 import {
-  ActionContainer,
   AddFieldContainer,
   AddRecordContainer,
   AddRecordTableContainer,
   BorderBottom,
-  ButtonContainer,
-  CardButtonContainer,
   CardContainer,
-  CardDescription,
   CheckboxContainer,
   ContentContainer,
   CreateSchemaContainer,
@@ -86,197 +87,6 @@ import {
   TableContainer,
   TitleContainer
 } from 'styles/views/issuanace'
-import React from 'react'
-
-const cardsData = [
-  {
-    img: Plus,
-    description: (
-      <CardDescription>
-        Create a new design
-        <span>
-          Create a unique credential design using design templates. You can add
-          image, logo and change the fonts.
-        </span>
-      </CardDescription>
-    )
-  },
-  {
-    img: CardImage, // Replace with actual image path
-    description: (
-      <CardDescription>
-        Certificate Design
-        <span>Design description will be shown here... </span>
-      </CardDescription>
-    ),
-    button: (
-      <CardButtonContainer>
-        <Button>{'Preview'}</Button>
-        <Button>{'Add to Space'}</Button>
-      </CardButtonContainer>
-    ) // Replace with your button component
-  },
-  {
-    img: CardImage, // Replace with actual image path
-    description: (
-      <CardDescription>
-        Drivers License
-        <span>Design description will be shown here...</span>
-      </CardDescription>
-    ),
-    button: (
-      <CardButtonContainer>
-        <Button>{'Preview'}</Button>
-        <Button>{'Add to Space'}</Button>
-      </CardButtonContainer>
-    ) // Replace with your button component
-  },
-  {
-    img: CardImage, // Replace with actual image path
-    description: (
-      <CardDescription>
-        Identity Card
-        <span>Design description will be shown here...</span>
-      </CardDescription>
-    ),
-    button: (
-      <CardButtonContainer>
-        <Button>{'Preview'}</Button>
-        <Button>{'Add to Space'}</Button>
-      </CardButtonContainer>
-    ) // Replace with your button component
-  }
-]
-
-const props: UploadProps = {
-  name: 'file',
-  multiple: true,
-  action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
-  beforeUpload: file => {
-    const isJson =
-      file.type === 'application/json' || file.name.endsWith('.json')
-    if (!isJson) {
-      message.error('You can only upload JSON files!')
-    }
-
-    return isJson || Upload.LIST_IGNORE // Ignore the file if it's not JSON
-  },
-  onChange(info) {
-    const { status } = info.file
-    if (status !== 'uploading') {
-      console.log(info.file, info.fileList)
-    }
-
-    if (status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully.`)
-    } else if (status === 'error') {
-      message.error(`${info.file.name} file upload failed.`)
-    }
-  },
-  onDrop(e) {
-    console.log('Dropped files', e.dataTransfer.files)
-  }
-}
-
-interface DataType {
-  key: React.Key
-  Schema: string
-  Created: string
-  CreatedOn: string
-  Updated: string
-  Action: React.ReactNode
-}
-
-interface AddRecordDataType {
-  key: React.Key
-  Recipient: string
-  Employee: string
-  Job: string
-  DOB: string
-  Email: string
-  Employer: string
-  Action: React.ReactNode
-}
-
-interface MessageDataType {
-  key: React.Key
-  Name: string
-  Email: string
-  DID: string
-}
-
-const columns: TableColumnsType<DataType> = [
-  { title: 'Schema Name', dataIndex: 'Schema' },
-  { title: 'Created By', dataIndex: 'Created' },
-  { title: 'Created On', dataIndex: 'CreatedOn' },
-  { title: 'Last Updated', dataIndex: 'Updated' },
-  { title: 'Action', dataIndex: 'Action' }
-]
-
-const addRecordColumns: TableColumnsType<AddRecordDataType> = [
-  { title: 'Recipient Email', dataIndex: 'Recipient' },
-  { title: 'Employee Name', dataIndex: 'Employee' },
-  { title: 'Job Role', dataIndex: 'Job' },
-  { title: 'DOB', dataIndex: 'DOB' },
-  { title: 'Email Id', dataIndex: 'Email' },
-  { title: 'Employee ID', dataIndex: 'Employer' },
-  { title: 'Action', dataIndex: 'Action' }
-]
-
-const dataSource = Array.from<DataType>({ length: 46 }).map<DataType>(
-  (_, i) => ({
-    key: i,
-    Schema: `Offer Letter`,
-    Created: 'Utkarsh Bafna',
-    CreatedOn: `08 May 2024`,
-    Updated: '15 June 2024',
-    Action: (
-      <ActionContainer>
-        <ButtonContainer>
-          <View />
-          View
-        </ButtonContainer>
-        <ButtonContainer className="primary">
-          <Duplicate />
-          Duplicate
-        </ButtonContainer>
-      </ActionContainer>
-    )
-  })
-)
-
-const addRecorddataSource = Array.from<AddRecordDataType>({
-  length: 3
-}).map<AddRecordDataType>((_, i) => ({
-  key: i,
-  Recipient: `aakanksham...`,
-  Employee: 'numan@gma...',
-  Job: `UIUX Desi...`,
-  DOB: '08/05/2024',
-  Email: 'numan@gma...',
-  Employer: 'DC98408...',
-  Action: (
-    <ActionContainer>
-      <Image src={Trash} width={16} height={16} alt="Remove" />
-      <Image src={Edit} width={16} height={16} alt="Edit" />
-    </ActionContainer>
-  )
-}))
-
-const messageColumns: TableColumnsType<MessageDataType> = [
-  { title: 'Recipients Name', dataIndex: 'Name' },
-  { title: 'Recipients Email ID', dataIndex: 'Email' },
-  { title: 'Recipients DID', dataIndex: 'DID' }
-]
-
-const messagedataSource = Array.from<MessageDataType>({
-  length: 50
-}).map<MessageDataType>((_, i) => ({
-  key: i,
-  Name: `Rushikesh Baikare`,
-  Email: 'rushib12@gmail...',
-  DID: `did:xstudio:982:Z...`
-}))
 
 const useIssuanaceLogic = () => {
   const { TextArea, Search } = Input
