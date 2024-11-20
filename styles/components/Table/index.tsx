@@ -45,4 +45,9 @@ export const ButtonContent = styled.button`
   height: 20px;
   background: #fff;
   height: 40px;
+
+  &.primary {
+    background: #1e3460;
+    color: #fff;
+  }
 `

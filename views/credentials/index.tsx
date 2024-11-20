@@ -132,6 +132,7 @@ const CredentialsView: React.FC<CredentialsViewProps> = ({
           columns={isDetailView ? secondcolumns : columns}
           dataSource={isDetailView ? secondPaginatedData : paginatedData}
           onRowClick={onRowClick}
+          isDetailView={isDetailView}
         />
       </TableContainer>
     </>

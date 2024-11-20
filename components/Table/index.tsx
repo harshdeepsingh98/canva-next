@@ -3,6 +3,8 @@ import { useEffect } from 'react'
 import { Flex, message } from 'antd'
 import Archive from 'images/svg/Archive'
 import Delete from 'images/svg/Delete'
+import Download from 'images/svg/Download'
+import Revoke from 'images/svg/Undo'
 import {
   StyledTable,
   ButtonContainer,
@@ -15,6 +17,7 @@ interface TableProps {
   columns: any
   dataSource: any
   onRowClick?: (record: any) => void
+  isDetailView?: boolean
 }
 
 const TableComponent: React.FC<TableProps> = ({
@@ -22,7 +25,8 @@ const TableComponent: React.FC<TableProps> = ({
   rowSelection,
   columns,
   dataSource,
-  onRowClick
+  onRowClick,
+  isDetailView
 }) => {
   const [messageApi, contextHolder] = message.useMessage()
   const messageKey = 'selected-message'
@@ -41,17 +45,40 @@ const TableComponent: React.FC<TableProps> = ({
               alignItems: 'center'
             }}
           >
-            {selectedRowKeys.length} Spaces Selected
-            <ButtonContainer>
-              <ButtonContent>
-                <Delete />
-                Delete
-              </ButtonContent>
-              <ButtonContent>
-                <Archive />
-                Archive
-              </ButtonContent>
-            </ButtonContainer>
+            {isDetailView ? (
+              <>
+                {' '}
+                {selectedRowKeys.length} Credentials Selected
+                <ButtonContainer>
+                  <ButtonContent className="primary">
+                    <Revoke />
+                    Revoke
+                  </ButtonContent>
+                  <ButtonContent>
+                    <Download />
+                    Download
+                  </ButtonContent>
+                  <ButtonContent>
+                    <Delete />
+                    Delete
+                  </ButtonContent>
+                </ButtonContainer>
+              </>
+            ) : (
+              <>
+                {selectedRowKeys.length} Spaces Selected
+                <ButtonContainer>
+                  <ButtonContent>
+                    <Delete />
+                    Delete
+                  </ButtonContent>
+                  <ButtonContent>
+                    <Archive />
+                    Archive
+                  </ButtonContent>
+                </ButtonContainer>
+              </>
+            )}
           </div>
         ),
         duration: 0, // Keeps message visible until manually closed
@@ -61,7 +88,7 @@ const TableComponent: React.FC<TableProps> = ({
       // Clear the message when no items are selected
       messageApi.destroy() // Remove the message
     }
-  }, [selectedRowKeys.length, messageApi])
+  }, [selectedRowKeys.length, messageApi, isDetailView])
   return (
     <>
       {contextHolder}
