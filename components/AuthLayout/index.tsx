@@ -33,6 +33,7 @@ interface LayoutProps {
   title: string
   isbackIconVisible?: boolean
   handleBackClick?: () => void
+  isButtonHidden?: boolean
 }
 
 const siderStyle: React.CSSProperties = {
@@ -73,7 +74,8 @@ const AuthLayout: React.FC<LayoutProps> = ({
   children,
   title,
   isbackIconVisible,
-  handleBackClick
+  handleBackClick,
+  isButtonHidden
 }) => {
   const router = useRouter()
 
@@ -127,15 +129,17 @@ const AuthLayout: React.FC<LayoutProps> = ({
             {title}
           </TitleContainer>
           <ProfileContainer>
-            <ButtonContainer>
-              <Image
-                src={Plus}
-                alt="Plus"
-                width={20} // specify width
-                height={20} // specify height
-              />
-              New Space
-            </ButtonContainer>
+            {!isButtonHidden && (
+              <ButtonContainer>
+                <Image
+                  src={Plus}
+                  alt="Plus"
+                  width={20} // specify width
+                  height={20} // specify height
+                />
+                New Space
+              </ButtonContainer>
+            )}
             <StyledSpace>
               <Dropdown overlay={logoutMenu} trigger={['click']}>
                 <Avatar
