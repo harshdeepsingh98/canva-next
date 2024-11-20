@@ -1,3 +1,4 @@
+import { Tag } from 'antd'
 import { styled } from 'styled-components'
 
 export const DescriptionContainer = styled.div`
@@ -69,8 +70,6 @@ export const TableContainer = styled.div`
 
 export const ActionContainer = styled.div`
   display: flex;
-
-  margin-top: 20px;
 `
 
 export const IconContainer = styled.div``
@@ -118,5 +117,53 @@ export const DrawerButtonContainer = styled.div`
     color: #fff;
     border: none;
     background: #1e3460;
+  }
+`
+
+export const HeadingContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 18px;
+  text-align: left;
+  margin-top: 40px;
+`
+export const SelectContainer = styled.div`
+  margin-left: 20px;
+`
+export const PaginationContainer = styled.div`
+  display: flex;
+  flex: 1;
+  justify-content: end;
+
+  .ant-select-selector {
+    background: #f1f6ff !important;
+    color: #1e3460 !important;
+    font-weight: 600;
+    border: none !important;
+    outline: none !important;
+  }
+`
+
+export const StyledTag = styled(Tag)<{ color: string }>`
+  font-size: 14px;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 12px;
+
+  // Customize based on the color prop
+  background-color: ${({ color }) =>
+    color === 'success' ? '#28a745' : '#DCFCE7  !important'};
+  color: ${({ color }) =>
+    color === 'success' ? '#fff' : '#023314 !important'};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  svg {
   }
 `

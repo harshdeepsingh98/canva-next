@@ -16,6 +16,7 @@ import Activity from 'images/png/Activity.png'
 import Subscription from 'images/png/Subscription.png'
 import Help from 'images/png/Help.png'
 import Plus from 'images/png/Add.png'
+import Back from 'images/png/Back.png'
 import AvatarIcon from 'images/png/Avatar.png'
 import {
   TitleContainer,
@@ -30,6 +31,8 @@ const { Header, Content, Sider } = Layout
 interface LayoutProps {
   children: ReactNode
   title: string
+  isbackIconVisible?: boolean
+  handleBackClick?: () => void
 }
 
 const siderStyle: React.CSSProperties = {
@@ -66,7 +69,12 @@ const menuItems: MenuProps['items'] = [
   )
 }))
 
-const AuthLayout: React.FC<LayoutProps> = ({ children, title }) => {
+const AuthLayout: React.FC<LayoutProps> = ({
+  children,
+  title,
+  isbackIconVisible,
+  handleBackClick
+}) => {
   const router = useRouter()
 
   const logoutMenu = (
@@ -112,7 +120,12 @@ const AuthLayout: React.FC<LayoutProps> = ({ children, title }) => {
             borderBottom: `1px solid ${theme.colors.secondary}`
           }}
         >
-          <TitleContainer>{title}</TitleContainer>
+          <TitleContainer>
+            {isbackIconVisible && (
+              <Image src={Back} alt="back" onClick={handleBackClick} />
+            )}
+            {title}
+          </TitleContainer>
           <ProfileContainer>
             <ButtonContainer>
               <Image

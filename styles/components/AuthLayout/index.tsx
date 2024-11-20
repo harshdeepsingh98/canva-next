@@ -13,6 +13,10 @@ export const TitleContainer = styled.div`
   font-weight: 600 !important;
   font-size: 18px !important;
   color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 `
 
 export const ProfileContainer = styled.div`

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Tabs, Input, Button } from 'antd'
+import { Tabs, Input, Button, Space, Select } from 'antd'
 import useCredentialsLogic from 'utils/customHooks/credentials'
 import Table from 'components/Table'
 import Search from 'images/svg/Search'
@@ -10,10 +10,21 @@ import {
   Title,
   TabContainer,
   SearchContainer,
-  TableContainer
+  TableContainer,
+  HeadingContainer,
+  SelectContainer,
+  PaginationContainer
 } from 'styles/views/credentials'
 
-const CredentialsView: React.FC = () => {
+interface CredentialsViewProps {
+  isDetailView: boolean
+  onRowClick: () => void
+}
+
+const CredentialsView: React.FC<CredentialsViewProps> = ({
+  isDetailView,
+  onRowClick
+}) => {
   const {
     detail,
     currentPage,
@@ -23,7 +34,17 @@ const CredentialsView: React.FC = () => {
     paginatedData,
     rowSelection,
     selectedRowKeys,
-    columns
+    columns,
+    handleChange,
+    selectValues,
+    secondSelectedRowKeys,
+    secondRowSelection,
+    secondcolumns,
+    secondPaginatedData,
+    handleSecondNextPage,
+    handleSecondPrevPage,
+    secondCurrentPage,
+    secondTotalPages
   } = useCredentialsLogic()
 
   return (
@@ -36,49 +57,81 @@ const CredentialsView: React.FC = () => {
           </Description>
         ))}
       </DescriptionContainer>
-      <TabContainer>
-        <Tabs
-          defaultActiveKey="1"
-          items={[
-            {
-              label: 'Spaces',
-              key: '1'
-            },
+      {isDetailView ? (
+        <HeadingContainer>All Credentials</HeadingContainer>
+      ) : (
+        <TabContainer>
+          <Tabs
+            defaultActiveKey="1"
+            items={[
+              {
+                label: 'Spaces',
+                key: '1'
+              },
 
-            {
-              label: 'Archive',
-              key: '2'
-            }
-          ]}
-        />
-      </TabContainer>
+              {
+                label: 'Archive',
+                key: '2'
+              }
+            ]}
+          />
+        </TabContainer>
+      )}
+
       <SearchContainer>
         <Input
           size="large"
           placeholder="Search for spaces"
           prefix={<Search />}
         />
-        <div style={{ flex: 1, textAlign: 'end' }}>
-          <Button onClick={handlePrevPage} disabled={currentPage === 1}>
-            {'<'}
-          </Button>
-          <span>
-            {currentPage} / {totalPages}
-          </span>
-          <Button
-            onClick={handleNextPage}
-            disabled={currentPage === totalPages}
-          >
-            {'>'}
-          </Button>
-        </div>
+        <PaginationContainer>
+          <div>
+            <Button
+              onClick={isDetailView ? handleSecondPrevPage : handlePrevPage}
+              disabled={
+                isDetailView ? secondCurrentPage === 1 : currentPage === 1
+              }
+            >
+              {'<'}
+            </Button>
+            <span>
+              {isDetailView ? secondCurrentPage : currentPage} /
+              {isDetailView ? secondTotalPages : totalPages}
+            </span>
+            <Button
+              onClick={isDetailView ? handleSecondNextPage : handleNextPage}
+              disabled={
+                isDetailView
+                  ? secondCurrentPage === secondTotalPages
+                  : currentPage === totalPages
+              }
+            >
+              {'>'}
+            </Button>
+          </div>
+          {isDetailView && (
+            <SelectContainer>
+              <Space wrap>
+                <Select
+                  defaultValue="Credentails"
+                  style={{ width: 120 }}
+                  onChange={handleChange}
+                  options={selectValues}
+                />
+              </Space>
+            </SelectContainer>
+          )}
+        </PaginationContainer>
       </SearchContainer>
       <TableContainer>
         <Table
-          selectedRowKeys={selectedRowKeys}
-          rowSelection={rowSelection}
-          columns={columns}
-          dataSource={paginatedData}
+          selectedRowKeys={
+            isDetailView ? secondSelectedRowKeys : selectedRowKeys
+          }
+          rowSelection={isDetailView ? secondRowSelection : rowSelection}
+          columns={isDetailView ? secondcolumns : columns}
+          dataSource={isDetailView ? secondPaginatedData : paginatedData}
+          onRowClick={onRowClick}
         />
       </TableContainer>
     </>

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect } from 'react'
 import { Flex, message } from 'antd'
 import Archive from 'images/svg/Archive'
@@ -13,13 +14,15 @@ interface TableProps {
   rowSelection: any
   columns: any
   dataSource: any
+  onRowClick?: (record: any) => void
 }
 
 const TableComponent: React.FC<TableProps> = ({
   selectedRowKeys,
   rowSelection,
   columns,
-  dataSource
+  dataSource,
+  onRowClick
 }) => {
   const [messageApi, contextHolder] = message.useMessage()
   const messageKey = 'selected-message'
@@ -68,6 +71,9 @@ const TableComponent: React.FC<TableProps> = ({
           columns={columns}
           dataSource={dataSource}
           pagination={false}
+          onRow={record => ({
+            onClick: () => onRowClick?.(record) // Bind the click handler
+          })}
         />
       </Flex>
     </>
