@@ -89,11 +89,16 @@ export const ButtonContainer = styled.button`
 `
 
 export const DrawerTitle = styled.div`
-  font-family: Metropolis;
   font-size: 20px;
   font-weight: 600;
   line-height: 20px;
   text-align: left;
+
+  &.title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 `
 export const DrawerContainer = styled.div`
   height: 100%;
@@ -118,6 +123,7 @@ export const DrawerButtonContainer = styled.div`
     border: none;
     background: #1e3460;
   }
+  margin-bottom: 20px;
 `
 
 export const HeadingContainer = styled.div`
@@ -133,6 +139,14 @@ export const HeadingContainer = styled.div`
 `
 export const SelectContainer = styled.div`
   margin-left: 20px;
+
+  .ant-select-selector {
+    background: #f1f6ff !important;
+    color: #1e3460 !important;
+    font-weight: 600;
+    border: none !important;
+    outline: none !important;
+  }
 `
 export const PaginationContainer = styled.div`
   display: flex;

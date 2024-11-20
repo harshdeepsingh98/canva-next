@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
-import { useState } from 'react'
-import { TableProps } from 'antd'
+import { useEffect, useState } from 'react'
+import { Form, TableProps } from 'antd'
 import {
   detail,
   tableMenu,
@@ -37,6 +37,8 @@ export interface SecondDataType {
   Action: React.ReactNode
 }
 
+type LayoutType = Parameters<typeof Form>[0]['layout']
+
 const useCredentialsLogic = () => {
   const pageSize = 10
 
@@ -47,6 +49,26 @@ const useCredentialsLogic = () => {
   const [secondSelectedRowKeys, setSecondSelectedRowKeys] = useState<
     React.Key[]
   >([])
+
+  const [form] = Form.useForm()
+  const [formLayout, setFormLayout] = useState<LayoutType>('vertical')
+
+  const [drawerVisible, setDrawerVisible] = useState(false)
+  const [drawerData, setDrawerData] = useState<any>(null)
+
+  useEffect(() => {
+    const htmlElement = document.documentElement
+
+    if (drawerVisible) {
+      htmlElement.classList.add('no-scroll')
+    } else {
+      htmlElement.classList.remove('no-scroll')
+    }
+
+    return () => {
+      htmlElement.classList.remove('no-scroll')
+    }
+  }, [drawerVisible])
 
   const updatedDataSource = dataSource()
 
@@ -105,6 +127,19 @@ const useCredentialsLogic = () => {
     console.log(`selected ${value}`)
   }
 
+  const handleRowClick = (record: any) => {
+    setDrawerData(record) // Set the data of the clicked row
+    setDrawerVisible(true) // Open the Drawer
+  }
+
+  const handleCloseDrawer = () => {
+    setDrawerVisible(false)
+  }
+
+  const onFormLayoutChange = ({ layout }: { layout: LayoutType }) => {
+    setFormLayout(layout)
+  }
+
   return {
     detail,
     currentPage,
@@ -125,7 +160,14 @@ const useCredentialsLogic = () => {
     secondCurrentPage,
     secondTotalPages,
     handleSecondPrevPage,
-    handleSecondNextPage
+    handleSecondNextPage,
+    drawerVisible,
+    drawerData,
+    handleRowClick,
+    handleCloseDrawer,
+    form,
+    formLayout,
+    onFormLayoutChange
   }
 }
 

@@ -1,8 +1,9 @@
 import React from 'react'
-import { Tabs, Input, Button, Space, Select } from 'antd'
+import { Tabs, Input, Button, Space, Select, Drawer, Form } from 'antd'
 import useCredentialsLogic from 'utils/customHooks/credentials'
 import Table from 'components/Table'
 import Search from 'images/svg/Search'
+import Dot from 'images/svg/Dot'
 import {
   DescriptionContainer,
   Description,
@@ -13,7 +14,11 @@ import {
   TableContainer,
   HeadingContainer,
   SelectContainer,
-  PaginationContainer
+  PaginationContainer,
+  DrawerTitle,
+  DrawerContainer,
+  DrawerButtonContainer,
+  StyledTag
 } from 'styles/views/credentials'
 
 interface CredentialsViewProps {
@@ -44,7 +49,13 @@ const CredentialsView: React.FC<CredentialsViewProps> = ({
     handleSecondNextPage,
     handleSecondPrevPage,
     secondCurrentPage,
-    secondTotalPages
+    secondTotalPages,
+    drawerVisible,
+    handleRowClick,
+    handleCloseDrawer,
+    form,
+    formLayout,
+    onFormLayoutChange
   } = useCredentialsLogic()
 
   return (
@@ -131,10 +142,66 @@ const CredentialsView: React.FC<CredentialsViewProps> = ({
           rowSelection={isDetailView ? secondRowSelection : rowSelection}
           columns={isDetailView ? secondcolumns : columns}
           dataSource={isDetailView ? secondPaginatedData : paginatedData}
-          onRowClick={onRowClick}
+          onRowClick={isDetailView ? handleRowClick : onRowClick}
           isDetailView={isDetailView}
         />
       </TableContainer>
+      <Drawer
+        closable={false}
+        destroyOnClose
+        title={
+          <>
+            <SelectContainer style={{ marginLeft: 0, marginBottom: '20px' }}>
+              <Space wrap>
+                <Select
+                  defaultValue="Credentails"
+                  style={{ width: 120 }}
+                  onChange={handleChange}
+                  options={selectValues}
+                />
+              </Space>
+            </SelectContainer>
+            <DrawerTitle className="title">
+              Experience Letter
+              <StyledTag color="fail" icon={<Dot />}>
+                success
+              </StyledTag>
+            </DrawerTitle>
+          </>
+        }
+        placement="right"
+        open={drawerVisible}
+      >
+        <DrawerContainer>
+          <Form
+            layout={formLayout}
+            form={form}
+            initialValues={{ layout: formLayout }}
+            onValuesChange={onFormLayoutChange}
+            style={{ maxWidth: formLayout === 'inline' ? 'none' : 600 }}
+          >
+            <Form.Item label="Name">
+              <Input placeholder="input placeholder" />
+            </Form.Item>
+            <Form.Item label="Email ID">
+              <Input placeholder="input placeholder" />
+            </Form.Item>
+            <Form.Item label="Employee ID">
+              <Input placeholder="input placeholder" />
+            </Form.Item>
+            <Form.Item label="Subject ID">
+              <Input placeholder="input placeholder" />
+            </Form.Item>
+            <Form.Item label="Issued On">
+              <Input placeholder="input placeholder" />
+            </Form.Item>
+            <DrawerButtonContainer>
+              <Button onClick={handleCloseDrawer}>{'Cancel'}</Button>
+              <Button onClick={handleCloseDrawer}>{'Edit'}</Button>
+            </DrawerButtonContainer>
+          </Form>
+        </DrawerContainer>
+      </Drawer>
     </>
   )
 }
