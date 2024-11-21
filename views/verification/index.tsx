@@ -57,6 +57,7 @@ const VerificationView: React.FC = () => {
           rowSelection={rowSelection}
           columns={columns}
           dataSource={paginatedData}
+          isMessageModalNotShown={true}
         />
       </TableContainer>
     </>

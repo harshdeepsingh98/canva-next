@@ -18,6 +18,7 @@ interface TableProps {
   dataSource: any
   onRowClick?: (record: any) => void
   isDetailView?: boolean
+  isMessageModalNotShown?: boolean
 }
 
 const TableComponent: React.FC<TableProps> = ({
@@ -26,13 +27,14 @@ const TableComponent: React.FC<TableProps> = ({
   columns,
   dataSource,
   onRowClick,
-  isDetailView
+  isDetailView,
+  isMessageModalNotShown
 }) => {
   const [messageApi, contextHolder] = message.useMessage()
   const messageKey = 'selected-message'
 
   useEffect(() => {
-    if (selectedRowKeys.length > 0) {
+    if (selectedRowKeys.length > 0 && !isMessageModalNotShown) {
       // Show or update message when items are selected
       messageApi.open({
         key: messageKey,
@@ -88,7 +90,7 @@ const TableComponent: React.FC<TableProps> = ({
       // Clear the message when no items are selected
       messageApi.destroy() // Remove the message
     }
-  }, [selectedRowKeys.length, messageApi, isDetailView])
+  }, [selectedRowKeys.length, messageApi, isDetailView, isMessageModalNotShown])
   return (
     <>
       {contextHolder}
