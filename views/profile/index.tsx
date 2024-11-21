@@ -1,15 +1,21 @@
-import { useState } from 'react'
 import Image from 'next/image'
-import { Avatar, Button, Input, Tabs } from 'antd'
+import { Avatar, Button, Input, Modal, Select, Space, Tabs } from 'antd'
+import useProfileLogic from 'utils/customHooks/profile'
+import { columns, options } from 'utils/customHooks/profile/profileData'
+import Table from 'components/Table'
 import AvatarIcon from 'images/png/Avatar.png'
 import {
   AvatarContainer,
   BorderBottom,
+  BotttomButtonContainer,
   ButtonContainer,
   ContentContainer,
   HeadingContainer,
+  ModalContainer,
+  ModalHeadingContainer,
   OrganizationContainer,
   TabContainer,
+  TableContainer,
   UserContainer,
   UserTabs
 } from 'styles/views/profile'
@@ -17,12 +23,16 @@ import {
 const { TextArea } = Input
 
 const ProfileView: React.FC = () => {
-  const [activeTab, setActiveTab] = useState('1')
-
-  const handleTabChange = (key: string) => {
-    setActiveTab(key)
-  }
-
+  const {
+    activeTab,
+    selectedValue,
+    handleTabChange,
+    handleSelectChange,
+    updatedDataSource,
+    isModalVisible,
+    handleCancel,
+    handleConfirm
+  } = useProfileLogic()
   return (
     <>
       <TabContainer>
@@ -118,16 +128,50 @@ const ProfileView: React.FC = () => {
               </ContentContainer>
               <ContentContainer>
                 Permissions
-                <Input
-                  size="large"
-                  placeholder="Issuer ( View, Issue, Revoke, Download)"
-                />
+                <Space wrap>
+                  <Select
+                    defaultValue="Issuer ( View, Issue, Revoke, Download)"
+                    style={{ width: 250 }}
+                    onChange={handleSelectChange}
+                    options={options}
+                    value={selectedValue}
+                  />
+                </Space>
               </ContentContainer>
               <ButtonContainer style={{ width: 'auto' }}>
                 <Button>{'Add New User'}</Button>
               </ButtonContainer>
             </UserTabs>
+            <TableContainer>
+              <Table
+                selectedRowKeys={[]}
+                rowSelection={null}
+                columns={columns}
+                dataSource={updatedDataSource}
+              />
+            </TableContainer>
           </UserContainer>
+          <BotttomButtonContainer>
+            <Button>{'Cancel'}</Button>
+            <Button>{'Save'}</Button>
+          </BotttomButtonContainer>
+          <Modal
+            visible={isModalVisible}
+            centered
+            closable={false}
+            footer={null}
+          >
+            <ModalContainer>
+              <ModalHeadingContainer>
+                Delete Profile
+                <span>Are you sure you want to Delete Amar Salve ?</span>
+              </ModalHeadingContainer>
+              <BotttomButtonContainer className="modal-button">
+                <Button onClick={handleCancel}>{'Cancel'}</Button>
+                <Button onClick={handleConfirm}>{'Confirm'}</Button>
+              </BotttomButtonContainer>
+            </ModalContainer>
+          </Modal>
         </>
       )}
     </>
