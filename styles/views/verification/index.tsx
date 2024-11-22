@@ -69,6 +69,7 @@ export const ButtonContainer = styled.div`
   &.verifyjson-button {
     width: 60%;
     margin: auto;
+    max-width: 600px;
   }
 `
 
@@ -91,6 +92,7 @@ export const VerifyJsonContainer = styled.div`
   width: 60%;
   display: flex;
   flex-direction: column;
+  max-width: 600px;
   height: auto;
   justify-content: center;
   align-items: center;
