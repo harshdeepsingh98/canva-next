@@ -10,8 +10,8 @@ import {
 const useVerificationLogic = () => {
   const pageSize = 10
   const [currentPage, setCurrentPage] = useState(1)
-
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
+  const [isDrawerVisible, setIsDrawerVisible] = useState(false)
   const totalPages = Math.ceil(dataSource.length / pageSize)
   const handlePrevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1)
@@ -21,7 +21,17 @@ const useVerificationLogic = () => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1)
   }
 
-  const paginatedData = dataSource.slice(
+  const handleHistoryClick = () => {
+    setIsDrawerVisible(true)
+  }
+
+  const handleDrawerClose = () => {
+    setIsDrawerVisible(false)
+  }
+
+  const updatedDataSource = dataSource(handleHistoryClick)
+
+  const paginatedData = updatedDataSource.slice(
     (currentPage - 1) * pageSize,
     currentPage * pageSize
   )
@@ -73,7 +83,9 @@ const useVerificationLogic = () => {
     currentPage,
     totalPages,
     selectedRowKeys,
-    props
+    props,
+    isDrawerVisible,
+    handleDrawerClose
   }
 }
 

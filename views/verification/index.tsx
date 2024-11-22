@@ -1,4 +1,4 @@
-import { Button, Input, Upload } from 'antd'
+import { Button, Drawer, Input, Upload } from 'antd'
 import useVerificationLogic from 'utils/customHooks/verification'
 import { columns } from 'utils/customHooks/verification/verificationData'
 import Table from 'components/Table'
@@ -10,6 +10,9 @@ import {
   Border,
   BorderContainer,
   ButtonContainer,
+  DrawerButtonContainer,
+  DrawerContainer,
+  DrawerTitle,
   HeadingContainer,
   PaginationContainer,
   SearchContainer,
@@ -38,7 +41,9 @@ const VerificationView: React.FC<VerificationViewProps> = ({
     rowSelection,
     selectedRowKeys,
     paginatedData,
-    props
+    props,
+    isDrawerVisible,
+    handleDrawerClose
   } = useVerificationLogic()
 
   if (isVerifyJsonView) {
@@ -132,6 +137,21 @@ const VerificationView: React.FC<VerificationViewProps> = ({
           isMessageModalNotShown={true}
         />
       </TableContainer>
+      <Drawer
+        closable={false}
+        destroyOnClose
+        title={<DrawerTitle>History</DrawerTitle>}
+        placement="right"
+        open={isDrawerVisible}
+      >
+        <DrawerContainer>
+          Data
+          <DrawerButtonContainer>
+            <Button onClick={handleDrawerClose}>{'Cancel'}</Button>
+            <Button onClick={handleDrawerClose}>{'Add Record'}</Button>
+          </DrawerButtonContainer>
+        </DrawerContainer>
+      </Drawer>
     </>
   )
 }

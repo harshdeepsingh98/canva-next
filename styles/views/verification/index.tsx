@@ -159,3 +159,33 @@ export const UrlContainer = styled.div`
   text-decoration-skip-ink: none;
   margin-top: 20px;
 `
+export const DrawerTitle = styled.div`
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 20px;
+  text-align: left;
+`
+export const DrawerContainer = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`
+export const DrawerButtonContainer = styled.div`
+  display: flex;
+  width: 100%;
+  gap: 10px;
+  justify-content: end;
+
+  button:first-child {
+    color: #1e3460;
+    background: #f1f6ff;
+    border: none;
+  }
+
+  button:last-child {
+    color: #fff;
+    border: none;
+    background: #1e3460;
+  }
+`
