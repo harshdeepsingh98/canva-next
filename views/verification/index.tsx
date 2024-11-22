@@ -1,6 +1,9 @@
 import { Button, Drawer, Input, Upload } from 'antd'
 import useVerificationLogic from 'utils/customHooks/verification'
-import { columns } from 'utils/customHooks/verification/verificationData'
+import {
+  columns,
+  historyColumns
+} from 'utils/customHooks/verification/verificationData'
 import Table from 'components/Table'
 import Search from 'images/svg/Search'
 import Image from 'next/image'
@@ -43,7 +46,10 @@ const VerificationView: React.FC<VerificationViewProps> = ({
     paginatedData,
     props,
     isDrawerVisible,
-    handleDrawerClose
+    handleDrawerClose,
+    selectedHistoryRowKeys,
+    rowHistorySelection,
+    paginatedHistoryData
   } = useVerificationLogic()
 
   if (isVerifyJsonView) {
@@ -143,9 +149,18 @@ const VerificationView: React.FC<VerificationViewProps> = ({
         title={<DrawerTitle>History</DrawerTitle>}
         placement="right"
         open={isDrawerVisible}
+        width="50%"
       >
         <DrawerContainer>
-          Data
+          <TableContainer>
+            <Table
+              selectedRowKeys={selectedHistoryRowKeys}
+              rowSelection={rowHistorySelection}
+              columns={historyColumns}
+              dataSource={paginatedHistoryData}
+              isMessageModalNotShown={true}
+            />
+          </TableContainer>
           <DrawerButtonContainer>
             <Button onClick={handleDrawerClose}>{'Cancel'}</Button>
             <Button onClick={handleDrawerClose}>{'Add Record'}</Button>

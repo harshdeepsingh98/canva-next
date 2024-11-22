@@ -11,6 +11,12 @@ import { IconContainer } from 'styles/views/verification'
 export type TableRowSelection<T extends object = object> =
   TableProps<T>['rowSelection']
 
+// export const tableMenu: MenuProps['items'] = [
+//   { key: '1', label: 'Edit Details', icon: <Edit /> },
+//   { key: '3', label: 'Request', icon: <Archive /> },
+//   { key: '4', label: 'History', icon: <View /> },
+//   { key: '2', label: 'Delete', icon: <Delete /> }
+// ]
 export interface DataType {
   key: React.Key
   Name: string
@@ -20,18 +26,30 @@ export interface DataType {
   Action: React.ReactNode
 }
 
-// export const tableMenu: MenuProps['items'] = [
-//   { key: '1', label: 'Edit Details', icon: <Edit /> },
-//   { key: '3', label: 'Request', icon: <Archive /> },
-//   { key: '4', label: 'History', icon: <View /> },
-//   { key: '2', label: 'Delete', icon: <Delete /> }
-// ]
+export interface HistoryDataType {
+  key: React.Key
+  Verification: string
+  Holder: string
+  Status: React.ReactNode
+  Created: string
+  Verify: string
+  Action: React.ReactNode
+}
 
 export const columns = [
   { title: 'Name', dataIndex: 'Name' },
   { title: 'Template ID', dataIndex: 'Template' },
   { title: 'Total Request', dataIndex: 'Request' },
   { title: 'Date Created', dataIndex: 'Date' },
+  { title: '', dataIndex: 'Action' }
+]
+
+export const historyColumns = [
+  { title: 'Verification ID', dataIndex: 'Verification' },
+  { title: 'Holder Name', dataIndex: 'Holder' },
+  { title: 'Status', dataIndex: 'Status' },
+  { title: 'Created On', dataIndex: 'Created' },
+  { title: 'Verify DID', dataIndex: 'Verify' },
   { title: '', dataIndex: 'Action' }
 ]
 
@@ -73,4 +91,22 @@ export const dataSource = (handleHistoryClick: () => void) => {
 
     return rowData
   })
+}
+
+export const historyDataSource = () => {
+  return Array.from<HistoryDataType>({ length: 46 }).map<HistoryDataType>(
+    (_, i) => {
+      const rowData: HistoryDataType = {
+        key: i,
+        Verification: `b43t34nkl34kn3k4l...`,
+        Holder: 'Utkarsh Bafna',
+        Status: <></>,
+        Created: '04 May 2024',
+        Verify: 'b43t34nkl34kn3k4l...',
+        Action: <></>
+      }
+
+      return rowData
+    }
+  )
 }

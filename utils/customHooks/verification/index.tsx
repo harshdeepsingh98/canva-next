@@ -4,21 +4,37 @@ import { useState } from 'react'
 import {
   dataSource,
   DataType,
-  TableRowSelection
+  TableRowSelection,
+  historyDataSource
 } from 'utils/customHooks/verification/verificationData'
 
 const useVerificationLogic = () => {
   const pageSize = 10
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
+
+  const [currentHistoryPage, setCurrentHistoryPage] = useState(1)
+  const [selectedHistoryRowKeys, setSelectedHistoryRowKeys] = useState<
+    React.Key[]
+  >([])
   const [isDrawerVisible, setIsDrawerVisible] = useState(false)
   const totalPages = Math.ceil(dataSource.length / pageSize)
+  const totalHistoryPages = Math.ceil(historyDataSource.length / pageSize)
   const handlePrevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1)
   }
 
   const handleNextPage = () => {
     if (currentPage < totalPages) setCurrentPage(currentPage + 1)
+  }
+
+  const handleHistoryPrevPage = () => {
+    if (currentHistoryPage > 1) setCurrentHistoryPage(currentHistoryPage - 1)
+  }
+
+  const handleHistoryNextPage = () => {
+    if (currentHistoryPage < totalHistoryPages)
+      setCurrentHistoryPage(currentHistoryPage + 1)
   }
 
   const handleHistoryClick = () => {
@@ -30,6 +46,8 @@ const useVerificationLogic = () => {
   }
 
   const updatedDataSource = dataSource(handleHistoryClick)
+
+  const updatedHistorySourceData = historyDataSource()
 
   const paginatedData = updatedDataSource.slice(
     (currentPage - 1) * pageSize,
@@ -43,6 +61,20 @@ const useVerificationLogic = () => {
   const rowSelection: TableRowSelection<DataType> = {
     selectedRowKeys,
     onChange: onSelectChange
+  }
+
+  const paginatedHistoryData = updatedHistorySourceData.slice(
+    (currentHistoryPage - 1) * pageSize,
+    currentHistoryPage * pageSize
+  )
+
+  const onSelectHistoryChange = (newSelectedRowKeys: React.Key[]) => {
+    setSelectedHistoryRowKeys(newSelectedRowKeys)
+  }
+
+  const rowHistorySelection = {
+    selectedHistoryRowKeys,
+    onChange: onSelectHistoryChange
   }
 
   const props: UploadProps = {
@@ -85,7 +117,15 @@ const useVerificationLogic = () => {
     selectedRowKeys,
     props,
     isDrawerVisible,
-    handleDrawerClose
+    handleDrawerClose,
+    paginatedHistoryData,
+    onSelectHistoryChange,
+    rowHistorySelection,
+    selectedHistoryRowKeys,
+    handleHistoryPrevPage,
+    handleHistoryNextPage,
+    currentHistoryPage,
+    totalHistoryPages
   }
 }
 
