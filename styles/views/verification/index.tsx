@@ -65,6 +65,11 @@ export const ButtonContainer = styled.div`
   }
 
   padding: 10px 0px 10px 0;
+
+  &.verifyjson-button {
+    width: 60%;
+    margin: auto;
+  }
 `
 
 export const PaginationContainer = styled.div`
@@ -80,4 +85,75 @@ export const PaginationContainer = styled.div`
     border: none !important;
     outline: none !important;
   }
+`
+
+export const VerifyJsonContainer = styled.div`
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  border: 1px solid #e9e9e9;
+  border-radius: 8px;
+
+  padding: 40px;
+  .ant-upload-wrapper {
+    width: 100%;
+  }
+
+  .ant-upload-drag {
+    border: none;
+    background: #fff;
+  }
+
+  .ant-upload-list-item {
+    margin: 10px;
+  }
+
+  p {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    text-align: center;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: #262626 !important;
+  }
+`
+export const BorderContainer = styled.div`
+  margin-top: 40px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+
+  p {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 16px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+  }
+`
+export const Border = styled.div`
+  border: 1px solid #e9e9e9;
+  flex: 1;
+`
+export const UrlContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 12px;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  margin-top: 20px;
 `

@@ -1,17 +1,35 @@
-import { Button, Input } from 'antd'
+import { Button, Input, Upload } from 'antd'
 import useVerificationLogic from 'utils/customHooks/verification'
 import { columns } from 'utils/customHooks/verification/verificationData'
 import Table from 'components/Table'
 import Search from 'images/svg/Search'
+import Image from 'next/image'
+import Plus from 'images/png/AddCircle.png'
+import CloseIcon from 'images/png/CloseIcon.png'
 import {
+  Border,
+  BorderContainer,
   ButtonContainer,
   HeadingContainer,
   PaginationContainer,
   SearchContainer,
-  TableContainer
+  TableContainer,
+  UrlContainer,
+  VerifyJsonContainer
 } from 'styles/views/verification'
 
-const VerificationView: React.FC = () => {
+interface VerificationViewProps {
+  isVerifyJsonView: boolean
+  handleVerifyJsonClick: () => void
+  handleBackClick: () => void
+}
+
+const VerificationView: React.FC<VerificationViewProps> = ({
+  isVerifyJsonView,
+  handleVerifyJsonClick,
+  handleBackClick
+}) => {
+  const { Dragger } = Upload
   const {
     handleNextPage,
     handlePrevPage,
@@ -19,8 +37,62 @@ const VerificationView: React.FC = () => {
     totalPages,
     rowSelection,
     selectedRowKeys,
-    paginatedData
+    paginatedData,
+    props
   } = useVerificationLogic()
+
+  if (isVerifyJsonView) {
+    return (
+      <>
+        <VerifyJsonContainer>
+          <Dragger
+            {...props}
+            listType="picture"
+            showUploadList={{
+              removeIcon: (
+                <span
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <Image src={CloseIcon} alt="Remove" width={16} height={16} />
+                </span>
+              )
+            }}
+          >
+            <p>
+              <Image
+                src={Plus}
+                alt={`Plus`}
+                width={20} // specify width
+                height={20} // specify height
+              />
+            </p>
+            <p>
+              Drag & Drop files here or <br />
+              Click Here to import CSV file
+            </p>
+          </Dragger>
+          <BorderContainer>
+            <Border />
+            <p>OR</p>
+            <Border />
+          </BorderContainer>
+          <UrlContainer>
+            Import from URL <Input size="large" placeholder="{...}" />{' '}
+          </UrlContainer>
+        </VerifyJsonContainer>
+        <ButtonContainer className="verifyjson-button">
+          <Button onClick={handleBackClick}>{'Cancel'}</Button>
+          <Button>{'Verify'}</Button>
+        </ButtonContainer>
+      </>
+    )
+  }
+
   return (
     <>
       <HeadingContainer>All Templates</HeadingContainer>
@@ -46,7 +118,7 @@ const VerificationView: React.FC = () => {
             </Button>
           </div>
           <ButtonContainer>
-            <Button>{'Verify JSON'}</Button>
+            <Button onClick={handleVerifyJsonClick}>{'Verify JSON'}</Button>
             <Button>{'Create Template'}</Button>
           </ButtonContainer>
         </PaginationContainer>

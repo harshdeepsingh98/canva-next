@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+import { message, Upload, UploadProps } from 'antd'
 import { useState } from 'react'
 import {
   dataSource,
@@ -8,6 +10,7 @@ import {
 const useVerificationLogic = () => {
   const pageSize = 10
   const [currentPage, setCurrentPage] = useState(1)
+
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
   const totalPages = Math.ceil(dataSource.length / pageSize)
   const handlePrevPage = () => {
@@ -32,6 +35,36 @@ const useVerificationLogic = () => {
     onChange: onSelectChange
   }
 
+  const props: UploadProps = {
+    name: 'file',
+    multiple: true,
+    action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
+    beforeUpload: file => {
+      const isJson =
+        file.type === 'application/json' || file.name.endsWith('.json')
+      if (!isJson) {
+        message.error('You can only upload JSON files!')
+      }
+
+      return isJson || Upload.LIST_IGNORE // Ignore the file if it's not JSON
+    },
+    onChange(info) {
+      const { status } = info.file
+      if (status !== 'uploading') {
+        console.log(info.file, info.fileList)
+      }
+
+      if (status === 'done') {
+        message.success(`${info.file.name} file uploaded successfully.`)
+      } else if (status === 'error') {
+        message.error(`${info.file.name} file upload failed.`)
+      }
+    },
+    onDrop(e) {
+      console.log('Dropped files', e.dataTransfer.files)
+    }
+  }
+
   return {
     rowSelection,
     paginatedData,
@@ -39,7 +72,8 @@ const useVerificationLogic = () => {
     handlePrevPage,
     currentPage,
     totalPages,
-    selectedRowKeys
+    selectedRowKeys,
+    props
   }
 }
 
