@@ -37,6 +37,13 @@ export const Title = styled.div`
 
 export const TabContainer = styled.div`
   margin-top: 20px;
+
+  .ant-tabs-tab-btn {
+    color: #1e3460 !important;
+  }
+  .ant-tabs-ink-bar {
+    background-color: #1e3460 !important; // Sets the color of the underline
+  }
 `
 
 export const SearchContainer = styled.div`
