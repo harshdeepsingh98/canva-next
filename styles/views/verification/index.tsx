@@ -44,6 +44,28 @@ export const TableContainer = styled.div`
   display: flex;
   margin-top: 20px;
   gap: 20px;
+
+  .ant-table-container {
+    border: 1px solid #f1f1f1 !important;
+  }
+  .ant-table-tbody {
+    border: 1px solid #f1f1f1;
+  }
+  .ant-table-thead > tr > th {
+    background-color: #fff !important;
+
+    // color: #f1f1f1 !important;
+    // border-right: none !important;
+  }
+
+  .ant-table-tbody > tr > td {
+    // border-right: none !important;
+  }
+
+  .ant-table-thead > tr > th:not(:last-child)::before,
+  .ant-table-tbody > tr > td:not(:last-child)::before {
+    display: none !important;
+  }
 `
 
 export const ButtonContainer = styled.div`

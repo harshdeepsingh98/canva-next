@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { Button, Drawer, Input, Upload } from 'antd'
 import useVerificationLogic from 'utils/customHooks/verification'
 import {
@@ -5,10 +6,12 @@ import {
   historyColumns
 } from 'utils/customHooks/verification/verificationData'
 import Table from 'components/Table'
+import { Table as AntTable } from 'antd'
 import Search from 'images/svg/Search'
-import Image from 'next/image'
 import Plus from 'images/png/AddCircle.png'
 import CloseIcon from 'images/png/CloseIcon.png'
+import ArrowUp from 'images/png/ArrowUp.png'
+import ArrowDown from 'images/png/ArrowDown.png'
 import {
   Border,
   BorderContainer,
@@ -48,7 +51,6 @@ const VerificationView: React.FC<VerificationViewProps> = ({
     props,
     isDrawerVisible,
     handleDrawerClose,
-    selectedHistoryRowKeys,
     rowHistorySelection,
     paginatedHistoryData,
     handleHistoryNextPage,
@@ -184,13 +186,27 @@ const VerificationView: React.FC<VerificationViewProps> = ({
       >
         <DrawerContainer>
           <TableContainer className="table">
-            <Table
-              selectedRowKeys={selectedHistoryRowKeys}
+            <AntTable
               rowSelection={rowHistorySelection}
               columns={historyColumns}
               dataSource={paginatedHistoryData}
-              isMessageModalNotShown={true}
               scroll={{ x: true }}
+              expandable={{
+                expandedRowRender: () => <div></div>,
+                expandIcon: ({ expanded, onExpand, record }) => (
+                  <span
+                    onClick={e => onExpand(record, e)}
+                    style={{ cursor: 'pointer', fontSize: 16 }}
+                  >
+                    <Image
+                      src={expanded ? ArrowDown : ArrowUp}
+                      alt="Project Logo"
+                      style={{ height: '15px', width: '15px' }}
+                    />
+                  </span>
+                )
+              }}
+              pagination={false}
             />
           </TableContainer>
           <DrawerButtonContainer style={{ marginTop: '20px' }}>
