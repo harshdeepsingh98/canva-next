@@ -150,9 +150,10 @@ const VerificationView: React.FC<VerificationViewProps> = ({
         placement="right"
         open={isDrawerVisible}
         width="50%"
+        className="drawer"
       >
         <DrawerContainer>
-          <TableContainer>
+          <TableContainer className="table">
             <Table
               selectedRowKeys={selectedHistoryRowKeys}
               rowSelection={rowHistorySelection}

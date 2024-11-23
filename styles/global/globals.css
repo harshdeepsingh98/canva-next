@@ -121,3 +121,19 @@ html.no-scroll {
   height: 43%;
   padding: 0;
 }
+
+.drawer {
+  .ant-drawer-body {
+    padding: 0 !important;
+  }
+
+  .ant-drawer-header {
+    border-bottom: none;
+  }
+}
+
+.table {
+  .ant-table-container {
+    border: none !important;
+  }
+}

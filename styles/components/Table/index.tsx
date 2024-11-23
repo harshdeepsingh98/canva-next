@@ -4,7 +4,7 @@ import { Table as AntTable } from 'antd'
 // Styled wrapper for Ant Design's Table
 export const StyledTable = styled(AntTable)`
   .ant-table-container {
-    border: 1px solid #f1f1f1 !important;
+    border: 1px solid #f1f1f1;
   }
   .ant-table-tbody {
     border: 1px solid #f1f1f1;

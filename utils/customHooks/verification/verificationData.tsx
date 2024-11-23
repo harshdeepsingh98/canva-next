@@ -6,6 +6,7 @@ import Delete from 'images/svg/Delete'
 import Edit from 'images/svg/Edit'
 import View from 'images/svg/View'
 import MenuIcon from 'images/png/Menu.png'
+import ArrowUp from 'images/png/ArrowUp.png'
 import { IconContainer } from 'styles/views/verification'
 
 export type TableRowSelection<T extends object = object> =
@@ -103,7 +104,11 @@ export const historyDataSource = () => {
         Status: <></>,
         Created: '04 May 2024',
         Verify: 'b43t34nkl34kn3k4l...',
-        Action: <></>
+        Action: (
+          <>
+            <Image src={ArrowUp} alt="Project Logo" />
+          </>
+        )
       }
 
       return rowData
