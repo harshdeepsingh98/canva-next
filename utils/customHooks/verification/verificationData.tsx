@@ -5,8 +5,9 @@ import Archive from 'images/svg/Archive'
 import Delete from 'images/svg/Delete'
 import Edit from 'images/svg/Edit'
 import View from 'images/svg/View'
+import Dot from 'images/svg/Dot'
 import MenuIcon from 'images/png/Menu.png'
-import { IconContainer } from 'styles/views/verification'
+import { IconContainer, StyledTag } from 'styles/views/verification'
 
 export type TableRowSelection<T extends object = object> =
   TableProps<T>['rowSelection']
@@ -100,7 +101,11 @@ export const historyDataSource = () => {
         key: i,
         Verification: `b43t34nkl34kn3k4l...`,
         Holder: 'Utkarsh Bafna',
-        Status: <></>,
+        Status: (
+          <StyledTag color="fail" icon={<Dot />}>
+            success
+          </StyledTag>
+        ),
         Created: '04 May 2024',
         Verify: 'b43t34nkl34kn3k4l...',
         Action: <></>

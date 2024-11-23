@@ -1,3 +1,4 @@
+import { Tag } from 'antd'
 import { styled } from 'styled-components'
 
 export const HeadingContainer = styled.div`
@@ -216,4 +217,58 @@ export const TitleRow = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+`
+export const StyledTag = styled(Tag)<{ color: string }>`
+  font-size: 14px;
+  font-weight: 600;
+  padding: 5px 10px 8px 10px;
+  border-radius: 20px;
+
+  // Customize based on the color prop
+  background-color: ${({ color }) =>
+    color === 'success' ? '#28a745' : '#DCFCE7  !important'};
+  color: ${({ color }) =>
+    color === 'success' ? '#fff' : '#023314 !important'};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  svg {
+  }
+`
+export const ExpandedRowContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 34px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 16px;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  width: 100%;
+
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  span {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 14px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    color: #6c6c6c;
+  }
+`
+export const ExpandableRowUrlContainer = styled.div`
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 12px;
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
 `

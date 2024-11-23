@@ -12,6 +12,7 @@ import Plus from 'images/png/AddCircle.png'
 import CloseIcon from 'images/png/CloseIcon.png'
 import ArrowUp from 'images/png/ArrowUp.png'
 import ArrowDown from 'images/png/ArrowDown.png'
+import Qrcode from 'images/png/Qrcode.png'
 import {
   Border,
   BorderContainer,
@@ -19,6 +20,8 @@ import {
   DrawerButtonContainer,
   DrawerContainer,
   DrawerTitle,
+  ExpandableRowUrlContainer,
+  ExpandedRowContent,
   HeadingContainer,
   PaginationContainer,
   SearchContainer,
@@ -192,7 +195,29 @@ const VerificationView: React.FC<VerificationViewProps> = ({
               dataSource={paginatedHistoryData}
               scroll={{ x: true }}
               expandable={{
-                expandedRowRender: () => <div></div>,
+                expandedRowRender: () => (
+                  <div
+                    style={{
+                      padding: '10px',
+                      display: 'flex',
+                      alignItems: 'start',
+                      justifyContent: 'start',
+                      gap: '10px'
+                    }}
+                  >
+                    <Image src={Qrcode} alt="Logo" />
+                    <ExpandedRowContent>
+                      <div>
+                        The design trip
+                        <span>d896393c-7ad4-44b8-a44a-32bd3635</span>
+                      </div>
+                      <ExpandableRowUrlContainer>
+                        URL{' '}
+                        <Input size="large" placeholder="Credential Password" />
+                      </ExpandableRowUrlContainer>
+                    </ExpandedRowContent>
+                  </div>
+                ),
                 expandIcon: ({ expanded, onExpand, record }) => (
                   <span
                     onClick={e => onExpand(record, e)}
