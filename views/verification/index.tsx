@@ -20,6 +20,7 @@ import {
   PaginationContainer,
   SearchContainer,
   TableContainer,
+  TitleRow,
   UrlContainer,
   VerifyJsonContainer
 } from 'styles/views/verification'
@@ -49,7 +50,11 @@ const VerificationView: React.FC<VerificationViewProps> = ({
     handleDrawerClose,
     selectedHistoryRowKeys,
     rowHistorySelection,
-    paginatedHistoryData
+    paginatedHistoryData,
+    handleHistoryNextPage,
+    handleHistoryPrevPage,
+    currentHistoryPage,
+    totalHistoryPages
   } = useVerificationLogic()
 
   if (isVerifyJsonView) {
@@ -146,7 +151,32 @@ const VerificationView: React.FC<VerificationViewProps> = ({
       <Drawer
         closable={false}
         destroyOnClose
-        title={<DrawerTitle>History</DrawerTitle>}
+        title={
+          <TitleRow>
+            <DrawerTitle>History</DrawerTitle>
+            <SearchContainer style={{ marginTop: 0 }}>
+              <PaginationContainer>
+                <div style={{ width: '100%', textAlign: 'end' }}>
+                  <Button
+                    onClick={handleHistoryPrevPage}
+                    disabled={currentHistoryPage === 1}
+                  >
+                    {'<'}
+                  </Button>
+                  <span>
+                    {currentHistoryPage} / {totalHistoryPages}
+                  </span>
+                  <Button
+                    onClick={handleHistoryNextPage}
+                    disabled={currentHistoryPage === totalHistoryPages}
+                  >
+                    {'>'}
+                  </Button>
+                </div>
+              </PaginationContainer>
+            </SearchContainer>
+          </TitleRow>
+        }
         placement="right"
         open={isDrawerVisible}
         width="50%"
@@ -160,9 +190,10 @@ const VerificationView: React.FC<VerificationViewProps> = ({
               columns={historyColumns}
               dataSource={paginatedHistoryData}
               isMessageModalNotShown={true}
+              scroll={{ x: true }}
             />
           </TableContainer>
-          <DrawerButtonContainer>
+          <DrawerButtonContainer style={{ marginTop: '20px' }}>
             <Button onClick={handleDrawerClose}>{'Cancel'}</Button>
             <Button onClick={handleDrawerClose}>{'Add Record'}</Button>
           </DrawerButtonContainer>

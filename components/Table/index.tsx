@@ -19,6 +19,7 @@ interface TableProps {
   onRowClick?: (record: any) => void
   isDetailView?: boolean
   isMessageModalNotShown?: boolean
+  scroll?: any
 }
 
 const TableComponent: React.FC<TableProps> = ({
@@ -28,7 +29,8 @@ const TableComponent: React.FC<TableProps> = ({
   dataSource,
   onRowClick,
   isDetailView,
-  isMessageModalNotShown
+  isMessageModalNotShown,
+  scroll
 }) => {
   const [messageApi, contextHolder] = message.useMessage()
   const messageKey = 'selected-message'
@@ -103,6 +105,7 @@ const TableComponent: React.FC<TableProps> = ({
           onRow={record => ({
             onClick: () => onRowClick?.(record) // Bind the click handler
           })}
+          scroll={scroll}
         />
       </Flex>
     </>
